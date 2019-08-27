@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const answerController = require('../controller/answer')
+const authentication = require('../middlewares/authentication')
 
+router.use(authentication)
 router.get('/', answerController.getanswers)
 router.get('/mine', answerController.getMyanswer)
 router.post('/create', answerController.createanswer)

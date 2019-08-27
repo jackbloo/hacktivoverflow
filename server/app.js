@@ -7,6 +7,7 @@ const app = express()
 const mongoose = require('mongoose');
 const morgan = require('morgan')
 const routes = require('./routes/index')
+const errorHandler = require('./helpers/errorhandler')
 app.use(cors())
 app.use(morgan('dev'))
 app.use(express.urlencoded({extended: false}))
@@ -18,21 +19,6 @@ mongoose.connect(process.env.LINK, {useNewUrlParser: true})
     console.log('error')
 })
 app.use('/', routes)
-app.use(function(err,req,res,next){
-    const { start, httpStatus, message, previousError, stack } = err
-    
-    if(err.code == 11000){
-        httpStatus = 400
-         message = 'Email is Already Registered'
-    }
-    res.status(httpStatus || 406).json({
-      status: false,
-      code: httpStatus || 406,
-      message,
-      data: previousError,
-      error: stack
-    })
-
-})
+app.use(errorHandler)
 
 module.exports = app;

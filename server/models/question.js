@@ -10,9 +10,12 @@ const questionSchema = new Schema({
         type: String,
         required: true,
     },
+    upvote: [{type: Schema.Types.ObjectId, ref: 'users'}],
+    downvote: [{type: Schema.Types.ObjectId, ref: 'users'}],
     UserId: {
         type: Schema.Types.ObjectId, ref: 'users'
-    }
+    },
+    tags: []
 },{
     timestamps: true,
     versionKey: false
