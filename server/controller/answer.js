@@ -83,7 +83,7 @@ class answerController {
             .then(data => {
                 if (data) {
                     throw {
-                        httpStatus: 400,
+                        httpStatus: 200,
                         message: "You can't Upvote"
                     }
                 } else {
@@ -130,7 +130,7 @@ class answerController {
             .then(data => {
                 if (data) {
                     throw {
-                        httpStatus: 400,
+                        httpStatus: 200,
                         message: "You can't Upvote"
                     }
                 } else {
@@ -160,6 +160,7 @@ class answerController {
                 }
             })
             .then(results => {
+                console.log(results)
                 res.status(200).json(results)
             })
             .catch(next)

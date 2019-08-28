@@ -73,7 +73,7 @@ class questionController {
 
     static getOneQuestion(req,res,next){
         let {id} = req.params
-        question.findById(id).populate('answer').populate('UserId')
+        question.findById(id).populate('answer').sort({createdAt: -1}).populate('UserId')
         .then(data => {
             res.send(data)
         }).catch(next)

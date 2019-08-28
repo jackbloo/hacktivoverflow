@@ -23,7 +23,9 @@
         <div class="up">
           <div class="juduls">
             <h4 @click="moveDetail(q._id)">{{q.title}}</h4>
-            <button><i class="fas fa-trash-alt"></i></button>
+            <button @click="deleteQuestion(q._id)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
           </div>
           <div class="isinya">
             <p class="para">{{q.pertanyaan}}</p>
@@ -38,8 +40,8 @@
           <div v-else>no tags</div>
 
           <div class="author">
-            <p class="u">by:  {{q.UserId.name}}</p>
-            <edit :idKu="q._id"></edit>
+            <p class="u">by: {{q.UserId.name}}</p>
+            <edit :qId="q._id"></edit>
           </div>
         </div>
       </div>
@@ -50,6 +52,8 @@
 <script>
 import { mapState } from "vuex";
 import edit from "../components/edit";
+import axios from "axios";
+import Swal from 'sweetalert2'
 export default {
   components: {
     edit
@@ -59,6 +63,40 @@ export default {
     moveDetail(id) {
       this.$router.push(`/overflow/${id}`);
       this.$store.dispatch("getOneQuestion", id);
+    },
+    deleteQuestion(id) {
+      let token = localStorage.getItem("access_token");
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      })
+        .then(result => {
+          if (result.value) {
+            Swal.fire({
+              title: "Deleting your question...",
+              allowOutsideClick: () => !Swal.isLoading()
+            });
+            axios({
+              method: "DELETE",
+              url: `http://localhost:3000/question/${id}`,
+              headers: {
+                token
+              }
+            }).then(({ data }) => {
+              Swal.close();
+              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+              this.$store.dispatch("getMyQuestions");
+            });
+          }
+        })
+        .catch(err => {
+          Swal.fire("Fail!", "Your Question is fail to be deleted!", "error");
+        });
     }
   }
 };

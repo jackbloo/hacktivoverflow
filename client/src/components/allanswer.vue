@@ -7,7 +7,7 @@
             <i class="far fa-thumbs-up"></i>
           </button>
         </div>
-        <div class="satu">{{q.upvote-q.downvote}}</div>
+        <div class="satu">{{q.upvote.length-q.downvote.length}}</div>
         <div class="satu">
           <button @click="downAnswer(q._id)">
             <i class="far fa-thumbs-down"></i>
@@ -34,12 +34,18 @@ export default {
   computed: mapState(["oneQ"]),
   methods: {
     upAnswer(id) {
-      this.$store.dispatch("answerUp", id);
-      this.$store.dispatch("getOneQuestion", id);
+      let payload = {
+        id,
+        questionId: this.$route.params.id
+      };
+      this.$store.dispatch("answerUp", payload);
     },
     downAnswer(id) {
-      this.$store.dispatch("answerDown", id);
-      this.$store.dispatch("getOneQuestion", id);
+      let payload = {
+        id,
+        questionId: this.$route.params.id
+      };
+      this.$store.dispatch("answerDown", payload);
     }
   },
   created() {

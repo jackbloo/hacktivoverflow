@@ -7,8 +7,9 @@ router.use(authentication)
 router.get('/', answerController.getanswers)
 router.get('/mine', answerController.getMyanswer)
 router.post('/create', answerController.createanswer)
-router.patch('/:id', answerController.updateanswer)
 router.delete('/:id', answerController.deleteanswer)
+router.patch('/upvote/:id', answerController.upvote)
+router.patch('/downvote/:id', answerController.downvote)
 
 
 

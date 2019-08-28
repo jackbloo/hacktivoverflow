@@ -72,6 +72,7 @@ export default new Vuex.Store({
     },
     upvoteQ(context, payload) {
       let id = payload
+      console.log(id)
       let token = localStorage.getItem('access_token')
       axios({
         method: 'PATCH',
@@ -105,10 +106,41 @@ export default new Vuex.Store({
       })
     },
     answerUp(context, payload) {
-      
+      let questionId = payload.questionId
+      let id = payload.id
+      let token = localStorage.getItem('access_token')
+      axios({
+        method: 'PATCH',
+        url: `http://localhost:3000/answer/upvote/${id}`,
+        headers: {
+          token
+        }
+      }).then(({
+        data
+      }) => {
+
+        context.dispatch('getOneQuestion', questionId)
+      }).catch(err => {
+        console.log(err)
+      })
     },
     answerDown(context, payload) {
-
+      let questionId = payload.questionId
+      let id = payload.id
+      let token = localStorage.getItem('access_token')
+      axios({
+        method: 'PATCH',
+        url: `http://localhost:3000/answer/downvote/${id}`,
+        headers: {
+          token
+        }
+      }).then(({
+        data
+      }) => {
+        context.dispatch('getOneQuestion', questionId)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
 });

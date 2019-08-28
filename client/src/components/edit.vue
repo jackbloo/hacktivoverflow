@@ -2,10 +2,10 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on" text :max-width="10"><i class="far fa-edit"></i></v-btn>
+        <v-btn color="primary" dark v-on="on" text :max-width="10" @click="getOne(qId)"><i class="far fa-edit"></i></v-btn>
       </template>
       <v-card>
-        <form @submit.prevent="editQuestion(idKu)">
+        <form @submit.prevent="editQuestion(qId)">
           <v-card-title>
             <span class="headline">Edit Question</span>
           </v-card-title>
@@ -48,8 +48,9 @@
 
 <script>
 import axios from "axios";
+import { mapState } from 'vuex';
 export default {
-    props: ['idKu'],
+    props:['qId'],
   data: () => ({
     dialog: false,
     select: [],
@@ -58,6 +59,7 @@ export default {
     title: "",
     pertanyaan: ""
   }),
+  computed: mapState(['oneQ']),
   methods: {
     updateTags() {
       this.$nextTick(() => {
@@ -69,26 +71,37 @@ export default {
     },
     editQuestion(id) {
       let token = localStorage.getItem("access_token");
-    //   axios({
-    //     method: "POST",
-    //     url: "http://localhost:3000/question/create",
-    //     headers: {
-    //       token
-    //     },
-    //     data: {
-    //       title: this.title,
-    //       pertanyaan: this.pertanyaan
-    //     }
-    //   })
-    //     .then(({ data }) => {
-    //       this.$store.dispatch("getQuestions");
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
+      axios({
+        method: "PATCH",
+        url: `http://localhost:3000/question/update/${id}`,
+        headers: {
+          token
+        },
+        data: {
+          title: this.title,
+          pertanyaan: this.pertanyaan
+        }
+      })
+        .then(({ data }) => {
+          this.$store.dispatch('getMyQuestions')
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
-    created(){
-        console.log('masuk')
+    getOne(id){
+        let token = localStorage.getItem('access_token')
+        axios({
+            method:'GET',
+            url:`http://localhost:3000/question/mine/${id}`,
+            headers: {
+                token
+            }
+        }).then(({data})=>{
+            this.title = data.title
+            this.pertanyaan = data.pertanyaan
+            this.select = data.tags
+        })
     }
   }
 };
