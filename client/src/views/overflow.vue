@@ -6,40 +6,62 @@
     <div class="isi">
       <div class="left">
         <div class="side">
-          <div class="quest">My Questions</div>
+          <div class="quest">
+            <router-link to="/overflow/myQuestions">
+              <button @click="takeMine">My Questions</button>
+            </router-link>
+          </div>
           <div>PUBLIC</div>
           <div class="list">
             <button>
-              <i class="fas fa-globe-europe"></i> Hacktiv Overflow
+              <router-link to="/overflow/all">
+                <i class="fas fa-globe-europe"></i> Hacktiv Overflow
+              </router-link>
             </button>
           </div>
         </div>
       </div>
       <div class="mid">
-        <div class="title">
-          <div>
-            <h1>All Questions</h1>
-          </div>
-          <div class="jumlah">
-              <p>18,127,731 questions</p>
+        <router-view></router-view>
+      </div>
+      <div class="right">
+        <div class="tagging">
+          Tags
+          <div class="semuatag">
+            <tags></tags>
+            <tags></tags>
+            <tags></tags>
+            <tags></tags>
+            <tags></tags>
           </div>
         </div>
-        <div class="down">
-            <boxes></boxes>
+        <div class="best">
+          <h1>Top Questions</h1>
         </div>
       </div>
-      <div class="right">halo</div>
     </div>
   </div>
 </template>
 
 <script>
 import navbarin from "../components/navbarin";
-import boxes from "../components/boxes"
+import boxes from "../components/boxes";
+import tags from "../components/tags";
+import { mapState } from "vuex";
 export default {
   components: {
     navbarin,
-    boxes
+    boxes,
+    tags
+  },
+  computed: mapState(["questions"]),
+  methods: {
+    takeMine() {
+      this.$store.dispatch("getMyQuestions");
+    }
+  },
+  created() {
+    this.$store.dispatch("getQuestions");
   }
 };
 </script>
@@ -58,11 +80,11 @@ export default {
 }
 .left {
   width: 20%;
-  height: 90vh;
+  height: 100%;
 }
 .mid {
   width: 60%;
-  height: 90vh;
+  height: 100%;
   border-left: 2px solid #0002;
   display: flex;
   flex-direction: column;
@@ -70,6 +92,9 @@ export default {
 .right {
   width: 20%;
   height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .side {
   height: 40%;
@@ -82,17 +107,22 @@ export default {
 .list {
   margin-left: 10%;
 }
-.title {
-  height: 25%;
-  border-bottom: 2px solid #0002;
-  display: flex;
-  flex-direction: column;
-  padding: 5%;
-}
-.down {
-  height: 75%;
-  display: flex;
-  flex-direction: column;
-}
 
+.tagging {
+  width: 100%;
+  height: 40%;
+  padding: 8%;
+  margin-bottom: 10%;
+}
+.best {
+  width: 100%;
+  height: 60%;
+  padding: 8%;
+}
+.semuatag {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <router-view/>
-  <footMe></footMe>  
+  <!-- <footMe></footMe>   -->
   </v-app>
 </template>
 
@@ -14,7 +14,14 @@ export default {
     footMe,
   },
   data: () => ({
-    //
+ 
   }),
+  created(){
+    if(localStorage.getItem('access_token')){
+      this.$router.push('/overflow/all')
+    } else {
+      this.$router.push('/home')
+    }
+  }
 };
 </script>

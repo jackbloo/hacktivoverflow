@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="box" v-for="(q,i) in questions" :key="i">
+    <div class="boxku" v-for="(q,i) in myQ" :key="i">
       <div class="kiri">
         <div class="satu">
           <div class="vo">
@@ -23,6 +23,7 @@
         <div class="up">
           <div class="juduls">
             <h4 @click="moveDetail(q._id)">{{q.title}}</h4>
+            <button><i class="fas fa-trash-alt"></i></button>
           </div>
           <div class="isinya">
             <p class="para">{{q.pertanyaan}}</p>
@@ -35,7 +36,11 @@
             </div>
           </div>
           <div v-else>no tags</div>
-          <div class="author">by: {{q.UserId.name}}</div>
+
+          <div class="author">
+            <p class="u">by:  {{q.UserId.name}}</p>
+            <edit :idKu="q._id"></edit>
+          </div>
         </div>
       </div>
     </div>
@@ -44,8 +49,12 @@
 
 <script>
 import { mapState } from "vuex";
+import edit from "../components/edit";
 export default {
-  computed: mapState(["questions"]),
+  components: {
+    edit
+  },
+  computed: mapState(["myQ"]),
   methods: {
     moveDetail(id) {
       this.$router.push(`/overflow/${id}`);
@@ -55,10 +64,10 @@ export default {
 };
 </script>
 
-<style>
-.box {
+<style >
+.boxku {
   border-bottom: 2px solid #0002;
-  height:20%;
+  height: 20%;
   display: flex;
   flex-direction: row;
 }
@@ -72,7 +81,7 @@ export default {
 }
 .kanan {
   width: 80%;
-  padding: 2%;
+  padding: 1%;
 }
 .satu {
   height: 50%;
@@ -88,7 +97,7 @@ export default {
   height: 50%;
 }
 .up {
-  height: 60%;
+  height: 40%;
   display: flex;
   flex-direction: column;
 }
@@ -100,6 +109,9 @@ export default {
 }
 .juduls {
   height: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .isinya {
   height: 50%;
@@ -109,15 +121,18 @@ export default {
 }
 h4 {
   text-align: justify;
-  cursor: grab;
 }
 p {
   text-align: justify;
 }
 .tagg {
-  width: 70%;
+  width: 60%;
 }
 .author {
-  width: 30%;
+  width: 40%;
+  align-items: center;
+}
+.u {
+  text-align: center;
 }
 </style>

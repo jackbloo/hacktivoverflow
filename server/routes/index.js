@@ -1,4 +1,4 @@
-const answer = require('../routes/answer')
+const answer = require('./answer')
 const question = require('../routes/question')
 // const tag = require('../routes/tag')
 const user = require('../routes/user')

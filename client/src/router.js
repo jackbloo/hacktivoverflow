@@ -21,7 +21,7 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [{
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Home,
     },
@@ -39,6 +39,26 @@ export default new Router({
       path: '/overflow',
       name: 'overflow',
       component: () => import( /* webpackChunkName: "overflow" */ './views/overflow.vue'),
+      children: [{
+          path: 'all',
+          name: 'all',
+          component: () => import( /* webpackChunkName: "allQuestions" */
+            './views/allQuestions.vue')
+        },
+        {
+          path: 'myquestions',
+          name: 'myquestions',
+          component: () => import( /* webpackChunkName: "myQuestions" */
+            './views/myQuestions.vue')
+        },
+        {
+          path: ':id',
+          name: 'allDetails',
+          component: () => import( /* webpackChunkName: "allDetails" */
+            './views/allDetails.vue')
+        },
+      ]
     },
+
   ],
 });

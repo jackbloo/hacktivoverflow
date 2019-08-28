@@ -15,6 +15,7 @@ const questionSchema = new Schema({
     UserId: {
         type: Schema.Types.ObjectId, ref: 'users'
     },
+    answer:[{type: Schema.Types.ObjectId, ref: 'answers'}],
     tags: []
 },{
     timestamps: true,

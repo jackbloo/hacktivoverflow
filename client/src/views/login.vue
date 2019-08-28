@@ -69,7 +69,7 @@ export default {
       Swal.showLoading();
       axios({
         method: "POST",
-        url: "http://35.225.201.56/user/signin",
+        url: "http://localhost:3000/user/signin",
         data: {
           email: this.email,
           password: this.password
@@ -79,7 +79,7 @@ export default {
           Swal.close();
           Swal.fire("Success!", "Your are logged in!", "success");
           localStorage.setItem("access_token", data.token);
-          this.$router.push("/products");
+          this.$router.push("/overflow/all");
         })
         .catch(err => {
           Swal.fire("Error", "Email/Password is Wrong", "error");

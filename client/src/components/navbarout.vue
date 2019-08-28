@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar >
-      <v-toolbar-title class="judul"><router-link to="/">HacktivOverflow</router-link></v-toolbar-title>
+      <v-toolbar-title class="judul"><router-link to="/home">HacktivOverflow</router-link></v-toolbar-title>
 
       <v-spacer></v-spacer>
 

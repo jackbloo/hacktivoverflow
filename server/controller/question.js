@@ -49,7 +49,7 @@ class questionController {
     }
 
     static getQuestions(req, res, next) {
-        question.find()
+        question.find().populate('UserId').sort({createdAt: -1})
             .then(data => {
                 res.status(200).json({
                     data
@@ -63,12 +63,20 @@ class questionController {
         } = req.decode
         question.find({
                 UserId: id
-            })
+            }).sort({createdAt: -1}).populate('UserId')
             .then(data => {
                 res.status(200).json({
                     data
                 })
             }).catch(next)
+    }
+
+    static getOneQuestion(req,res,next){
+        let {id} = req.params
+        question.findById(id).populate('answer').populate('UserId')
+        .then(data => {
+            res.send(data)
+        }).catch(next)
     }
 
     static upvote(req, res, next) {
