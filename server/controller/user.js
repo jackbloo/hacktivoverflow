@@ -33,7 +33,7 @@ class UserController {
                 }
             } else {
                 res.status(404).json({
-                    message:'user not found'
+                    message: 'user not found'
                 })
             }
         }).catch(next)
@@ -56,6 +56,67 @@ class UserController {
             .catch(err => {
                 next(err)
             })
+    }
+
+    static addTags(req, res, next) {
+        let {
+            tagKu
+        } = req.body
+        let {
+            id
+        } = req.decode
+
+        User.findByIdAndUpdate(id, {
+                $set: {
+                    myTags: []
+                }
+            }, {
+                new: true,
+                runValidators: true
+            })
+            .then(data => {
+                return User.findByIdAndUpdate(id, {
+                        $addToSet: {
+                            myTags: {
+                                $each: tagKu
+                            }
+                        }
+                    }, {
+                        new: true,
+                        runValidators: true
+                    })
+                    .then(data => {
+                        res.status(200).json({
+                            data
+                        })
+                    })
+            }).catch(next)
+        // let filtered = tagKu.filter((el, i) => {
+        //     return tagKu.indexOf(el) !== i
+        // })
+        // if (filtered.length == 0) {
+        //     User.findById(id)
+        //         .then(data => {
+        //             let filtered1 = data.myTags.filter(el => {return tagKu.indexOf(el) >= 0})
+        //             if(filtered1.length == 0){
+        //                 User.findByIdAndUpdate(id, {$push:{myTags:{$each:tagKu}}})
+        //                 .then(data2 => {
+        //                     res.status(200).json({
+        //                         data2
+        //                     })
+        //                 })
+        //             }else{
+        //                 res.status(400).json({
+        //                     message:'Please dont input same tag name'
+        //                 })
+        //             }
+        //         })
+        // } else {
+        //     res.status(400).json({
+        //         message:'Please dont input same tag name'
+        //     })
+        // }
+
     }
 }
 

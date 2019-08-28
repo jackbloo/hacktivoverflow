@@ -15,6 +15,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    myTags: []
 },{
     timestamps: true,
     versionKey: false

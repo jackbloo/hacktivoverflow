@@ -12,7 +12,8 @@ router.patch('/update/:id', questionController.updateQuestion)
 router.delete('/:id', questionController.deleteQuestion)
 router.patch('/upvote/:id', questionController.upvote)
 router.patch('/downvote/:id', questionController.downvote)
-router.post('/createTags', questionController.createTags)
+router.patch('/createTags', questionController.createTags)
 router.get('/tags/:tag', questionController.getTagsbyName)
+router.get('/topTen', questionController.getTopTen)
 
 module.exports = router;

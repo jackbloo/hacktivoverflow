@@ -179,32 +179,15 @@ class questionController {
             id,
             tagku
         } = req.body
-        question.findById(id)
+        question.findByIdAndUpdate(id,{$set:{tags:[]}},{new: true, runValidators:true})
+        .then(data1 => {
+            return question.findByIdAndUpdate(id, {$addToSet:{tags:{$each: tagku}}},{new: true, runValidators: true})
             .then(data => {
-                let filtered = data.tags.filter(el => {
-                    return el.includes(tagku)
+                res.status(200).json({
+                    data
                 })
-                if (filtered.length == 0) {
-                    question.findByIdAndUpdate(id, {
-                            $push: {
-                                tags: tagku
-                            }
-                        }, {
-                            new: true,
-                            runValidators: true
-                        })
-                        .then(data => {
-                            res.status(200).json({
-                                data
-                            })
-                        })
-                } else {
-                    res.status(400).json({
-                        message: 'Tags cannot be duplicate'
-                    })
-                }
-            }).catch(next)
-
+            })
+        }).catch(next)
     }
 
 
@@ -217,6 +200,24 @@ class questionController {
                 filtered
             })
         }).catch(next)
+    }
+
+    static getTopTen(req,res,next){
+        question.find().populate('UserId')
+        .then((data => {
+            let top10 = []
+            for(let i = 0; i < data.length; i++){
+                let topData = {}
+                topData['question'] = data[i].pertanyaan
+                topData['vote'] = data[i].upvote.length - data[i].downvote.length
+                topData['User'] = data[i].UserId.name
+                top10.push(topData)
+            }
+            let top10Ku = top10.sort((a,b) => {return b.vote - a.vote})
+            let top3 = top10Ku.splice(0,3)
+            res.send(top3)
+        })).catch(next)
+
     }
 
 
