@@ -59,7 +59,7 @@ export default {
       Swal.showLoading();
       axios({
         method: "PATCH",
-        url: "http://localhost:3000/user/addTags",
+        url: "http://18.191.103.187/user/addTags",
         headers: {
           token
         },
@@ -81,7 +81,7 @@ export default {
 
       axios({
         method: "GET",
-        url: "http://localhost:3000/user/myTags",
+        url: "http://18.191.103.187/user/myTags",
         headers: {
           token
         }

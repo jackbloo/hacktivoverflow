@@ -85,7 +85,7 @@ export default {
             });
             axios({
               method: "DELETE",
-              url: `http://localhost:3000/question/${id}`,
+              url: `http://18.191.103.187/question/${id}`,
               headers: {
                 token
               }

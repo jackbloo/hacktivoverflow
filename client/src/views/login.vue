@@ -69,7 +69,7 @@ export default {
       Swal.showLoading();
       axios({
         method: "POST",
-        url: "http://localhost:3000/user/signin",
+        url: "http://18.191.103.187/user/signin",
         data: {
           email: this.email,
           password: this.password

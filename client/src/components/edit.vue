@@ -68,7 +68,7 @@ export default {
       Swal.showLoading();
       axios({
         method: "PATCH",
-        url: `http://localhost:3000/question/update/${id}`,
+        url: `http://18.191.103.187/question/update/${id}`,
         headers: {
           token
         },
@@ -91,7 +91,7 @@ export default {
       let token = localStorage.getItem("access_token");
       axios({
         method: "GET",
-        url: `http://localhost:3000/question/mine/${id}`,
+        url: `http://18.191.103.187/question/mine/${id}`,
         headers: {
           token
         }

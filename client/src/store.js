@@ -49,7 +49,7 @@ export default new Vuex.Store({
       let token = localStorage.getItem('access_token')
       axios({
         method: 'GET',
-        url: 'http://localhost:3000/question',
+        url: 'http://18.191.103.187/question',
         headers: {
           token
         }
@@ -64,7 +64,7 @@ export default new Vuex.Store({
       let token = localStorage.getItem('access_token')
       axios({
         method: 'GET',
-        url: 'http://localhost:3000/question/mine',
+        url: 'http://18.191.103.187/question/mine',
         headers: {
           token
         }
@@ -80,7 +80,7 @@ export default new Vuex.Store({
       let token = localStorage.getItem('access_token')
       axios({
         method: 'GET',
-        url: `http://localhost:3000/question/mine/${id}`,
+        url: `http://18.191.103.187/question/mine/${id}`,
         headers: {
           token
         }
@@ -103,7 +103,7 @@ export default new Vuex.Store({
       Swal.showLoading()
       axios({
         method: 'PATCH',
-        url: `http://localhost:3000/question/upvote/${id}`,
+        url: `http://18.191.103.187/question/upvote/${id}`,
         headers: {
           token
         }
@@ -127,7 +127,7 @@ export default new Vuex.Store({
       Swal.showLoading()
       axios({
         method: 'PATCH',
-        url: `http://localhost:3000/question/downvote/${id}`,
+        url: `http://18.191.103.187/question/downvote/${id}`,
         headers: {
           token
         }
@@ -152,7 +152,7 @@ export default new Vuex.Store({
       Swal.showLoading()
       axios({
         method: 'PATCH',
-        url: `http://localhost:3000/answer/upvote/${id}`,
+        url: `http://18.191.103.187/answer/upvote/${id}`,
         headers: {
           token
         }
@@ -177,7 +177,7 @@ export default new Vuex.Store({
       Swal.showLoading()
       axios({
         method: 'PATCH',
-        url: `http://localhost:3000/answer/downvote/${id}`,
+        url: `http://18.191.103.187/answer/downvote/${id}`,
         headers: {
           token
         }
@@ -197,7 +197,7 @@ export default new Vuex.Store({
       let token = localStorage.getItem('access_token')
       axios({
         method: 'GET',
-        url: 'http://localhost:3000/user/myTags',
+        url: 'http://18.191.103.187/user/myTags',
         headers: {
           token
         }
@@ -214,7 +214,7 @@ export default new Vuex.Store({
       let tags = payload
       axios({
         method: 'GET',
-        url: `http://localhost:3000/question/tags/${tags}`,
+        url: `http://18.191.103.187/question/tags/${tags}`,
         headers: {
           token
         }
@@ -230,7 +230,7 @@ export default new Vuex.Store({
       let token = localStorage.getItem('access_token')
       axios({
         method: 'GET',
-        url: 'http://localhost:3000/vote/topTen',
+        url: 'http://18.191.103.187/vote/topTen',
         headers: {
           token
         }
@@ -246,7 +246,7 @@ export default new Vuex.Store({
       let token = localStorage.getItem('access_token')
       axios({
         method: 'GET',
-        url: 'http://localhost:3000/answer/mine',
+        url: 'http://18.191.103.187/answer/mine',
         headers: {
           token
         }
