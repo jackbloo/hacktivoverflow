@@ -1,21 +1,35 @@
 const question = require('../models/question')
+const votes = require('../models/vote')
 
 class questionController {
     static createQuestion(req, res, next) {
         let {
             title,
-            pertanyaan
+            pertanyaan,
+            tagku
         } = req.body
         let UserId = req.decode.id
-        console.log('sampe sini')
         question.create({
             title,
             pertanyaan,
             UserId
-        }).then(data => {
-            res.status(201).json({
-                data
-            })
+        }).then(data1 => {
+            let id = data1._id
+            return question.findByIdAndUpdate(id, {
+                    $addToSet: {
+                        tags: {
+                            $each: tagku
+                        }
+                    }
+                }, {
+                    new: true,
+                    runValidators: true
+                })
+                .then(data => {
+                    res.status(200).json({
+                        data
+                    })
+                })
         }).catch(next)
     }
 
@@ -49,7 +63,9 @@ class questionController {
     }
 
     static getQuestions(req, res, next) {
-        question.find().populate('UserId').sort({createdAt: -1})
+        question.find().populate('UserId').sort({
+                createdAt: -1
+            })
             .then(data => {
                 res.status(200).json({
                     data
@@ -63,7 +79,9 @@ class questionController {
         } = req.decode
         question.find({
                 UserId: id
-            }).sort({createdAt: -1}).populate('UserId')
+            }).sort({
+                createdAt: -1
+            }).populate('UserId')
             .then(data => {
                 res.status(200).json({
                     data
@@ -71,12 +89,16 @@ class questionController {
             }).catch(next)
     }
 
-    static getOneQuestion(req,res,next){
-        let {id} = req.params
-        question.findById(id).populate('answer').sort({createdAt: -1}).populate('UserId')
-        .then(data => {
-            res.send(data)
-        }).catch(next)
+    static getOneQuestion(req, res, next) {
+        let {
+            id
+        } = req.params
+        question.findById(id).populate('answer').sort({
+                createdAt: -1
+            }).populate('UserId')
+            .then(data => {
+                res.send(data)
+            }).catch(next)
     }
 
     static upvote(req, res, next) {
@@ -179,45 +201,92 @@ class questionController {
             id,
             tagku
         } = req.body
-        question.findByIdAndUpdate(id,{$set:{tags:[]}},{new: true, runValidators:true})
-        .then(data1 => {
-            return question.findByIdAndUpdate(id, {$addToSet:{tags:{$each: tagku}}},{new: true, runValidators: true})
-            .then(data => {
-                res.status(200).json({
-                    data
-                })
+        question.findByIdAndUpdate(id, {
+                $set: {
+                    tags: []
+                }
+            }, {
+                new: true,
+                runValidators: true
             })
-        }).catch(next)
+            .then(data1 => {
+                return question.findByIdAndUpdate(id, {
+                        $addToSet: {
+                            tags: {
+                                $each: tagku
+                            }
+                        }
+                    }, {
+                        new: true,
+                        runValidators: true
+                    })
+                    .then(data => {
+                        res.status(200).json({
+                            data
+                        })
+                    })
+            }).catch(next)
     }
-
 
     static getTagsbyName(req, res, next) {
         let tagku = req.params.tag
-        question.find()
-        .then(data => {
-          let filtered = data.filter(el => {return el.tags.includes(tagku)})
-            res.json({
-                filtered
-            })
-        }).catch(next)
+        question.find().populate('UserId')
+            .then(data => {
+                let filtered = data.filter(el => {
+                    return el.tags.includes(tagku)
+                })
+                res.json({
+                    filtered
+                })
+            }).catch(next)
     }
 
-    static getTopTen(req,res,next){
+    static changeTopTen(req, res, next) {
         question.find().populate('UserId')
-        .then((data => {
-            let top10 = []
-            for(let i = 0; i < data.length; i++){
-                let topData = {}
-                topData['question'] = data[i].pertanyaan
-                topData['vote'] = data[i].upvote.length - data[i].downvote.length
-                topData['User'] = data[i].UserId.name
-                top10.push(topData)
-            }
-            let top10Ku = top10.sort((a,b) => {return b.vote - a.vote})
-            let top3 = top10Ku.splice(0,3)
-            res.send(top3)
-        })).catch(next)
+            .then((data => {
+                let top10 = []
+                for (let i = 0; i < data.length; i++) {
+                    let topData = {}
+                    topData['question'] = data[i].pertanyaan
+                    topData['vote'] = data[i].upvote.length - data[i].downvote.length
+                    topData['User'] = data[i].UserId.name
+                    top10.push(topData)
+                }
+                let top10Ku = top10.sort((a, b) => {
+                    return b.vote - a.vote
+                })
+                let top3 = top10Ku.splice(0, 3)
+                let id = '5d6759e47b8e8532fb2d7d16'
+                return votes.findByIdAndUpdate(id,{$set:{topvotes:[]}},{new: true, runValidators:true})
+                .then(data2 => {
+                    return votes.findByIdAndUpdate(id,{$addToSet:{topvotes:{$each:top3}}},{new:true, runValidators:true})
+                    .then(response => {
+                        res.status(200).json(response)
+                    })
+                })
+            })).catch(next)
 
+    }
+
+    static createVotes(req, res, next) {
+        let {name} = req.body
+        votes.create({name})
+        .then(data => {
+            res.status(200).json({
+                data
+            })
+        })
+    }
+
+    static getVotes(req,res,next){
+        let id = '5d6759e47b8e8532fb2d7d16'
+        votes.findById(id)
+        .then(data => {
+            let top10 = data.topvotes
+            res.status(200).json({
+                top10
+            })
+        })
     }
 
 

@@ -26,8 +26,8 @@
         <div class="d">
           <div class="ri">
             <div v-if="oneQ.tags.length !==0">
-              <div v-for="(o,k) in oneQ.tags" :key="k">
-                <v-chip>{{o}}</v-chip>
+              <div >
+                <v-chip small v-for="(o,k) in oneQ.tags" :key="k">{{o}}</v-chip>
               </div>
             </div>
             <div v-else>no tags</div>

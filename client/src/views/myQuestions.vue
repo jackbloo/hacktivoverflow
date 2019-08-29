@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="title">
+  <div class="all">
+    <div class="pp">
       <div>
         <h1>My Questions</h1>
       </div>
@@ -8,8 +8,11 @@
         <p>{{myQ.length}} questions</p>
       </div>
     </div>
-    <div class="down">
+    <div class="ba" v-if="myQ.length !== 0">
       <myboxes></myboxes>
+    </div>
+    <div v-else>
+      <h1 class="oo">Please Create Question</h1>
     </div>
   </div>
 </template>
@@ -29,16 +32,19 @@ export default {
 </script>
 
 <style>
-.title {
-  height: 15%;
-  border-bottom: 2px solid #0002;
-  display: flex;
-  flex-direction: column;
+.pp{
+  height: 25%;
   padding: 5%;
+  border-bottom: 1px solid #0002;
+  margin-bottom: 10%;
 }
-.down {
+.ba {
   height: 75%;
-  display: flex;
-  flex-direction: column;
+}
+.all {
+  height: 100%;
+}
+.oo {
+  text-align: center;
 }
 </style>

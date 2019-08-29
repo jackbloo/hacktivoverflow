@@ -27,16 +27,14 @@
       <div class="right">
         <div class="tagging">
           Tags
+          <editTags></editTags>
           <div class="semuatag">
-            <tags></tags>
-            <tags></tags>
-            <tags></tags>
-            <tags></tags>
-            <tags></tags>
+            <tags :tak="t" v-for="(t,i) in myT" :key="i"></tags>
           </div>
         </div>
         <div class="best">
           <h1>Top Questions</h1>
+          <topQ></topQ>
         </div>
       </div>
     </div>
@@ -47,14 +45,18 @@
 import navbarin from "../components/navbarin";
 import boxes from "../components/boxes";
 import tags from "../components/tags";
+import editTags from "../components/editTags";
+import topQ from "../components/topQ";
 import { mapState } from "vuex";
 export default {
   components: {
     navbarin,
     boxes,
-    tags
+    tags,
+    editTags,
+    topQ
   },
-  computed: mapState(["questions"]),
+  computed: mapState(["questions", "myT"]),
   methods: {
     takeMine() {
       this.$store.dispatch("getMyQuestions");
@@ -62,6 +64,8 @@ export default {
   },
   created() {
     this.$store.dispatch("getQuestions");
+    this.$store.dispatch("getMyTags");
+    this.$store.dispatch("getTop10");
   }
 };
 </script>
@@ -122,7 +126,7 @@ export default {
 .semuatag {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 </style>

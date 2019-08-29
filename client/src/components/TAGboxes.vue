@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="box" v-for="(q,i) in questions" :key="i">
+    <div class="box" v-for="(q,i) in sameTags" :key="i">
       <div class="kiri">
         <div class="satu">
           <div class="vo">
@@ -29,12 +29,11 @@
           </div>
         </div>
         <div class="turun">
-          <div v-if="q.tags.length !== 0">
+          <div>
             <div class="tagg" >
               <v-chip small v-for="(t,i) in q.tags" :key="i">{{t}}</v-chip>
             </div>
           </div>
-          <div v-else>no tags</div>
           <div class="author">by: {{q.UserId.name}}</div>
         </div>
       </div>
@@ -45,7 +44,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  computed: mapState(["questions"]),
+  computed: mapState(["sameTags"]),
   methods: {
     moveDetail(id) {
       this.$router.push(`/overflow/${id}`);
@@ -58,9 +57,12 @@ export default {
 <style>
 .box {
   border-bottom: 2px solid #0002;
-  height:6%;
+  height:10%;
   display: flex;
   flex-direction: row;
+}
+.jumlah {
+  margin-top: 2%;
 }
 .kiri {
   width: 20%;
@@ -113,9 +115,6 @@ p {
 }
 .tagg {
   width: 70%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
 }
 .author {
   width: 30%;

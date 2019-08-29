@@ -118,6 +118,17 @@ class UserController {
         // }
 
     }
+
+    static getMyTags(req,res,next){
+        let {id} = req.decode
+        User.findById(id)
+        .then(data => {
+            let tags = data.myTags
+            res.status(200).json({
+                tags
+            })
+        }).catch(next)
+    }
 }
 
 module.exports = UserController;

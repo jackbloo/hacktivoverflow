@@ -33,8 +33,8 @@
         </div>
         <div class="turun">
           <div v-if="q.tags.length !== 0">
-            <div class="tagg" v-for="(t,i) in q.tags" :key="i">
-              <v-chip>{{t}}</v-chip>
+            <div class="tagg" >
+              <v-chip small v-for="(t,i) in q.tags" :key="i">{{t}}</v-chip>
             </div>
           </div>
           <div v-else>no tags</div>
@@ -105,7 +105,7 @@ export default {
 <style >
 .boxku {
   border-bottom: 2px solid #0002;
-  height: 20%;
+  height: 15%;
   display: flex;
   flex-direction: row;
 }

@@ -2,14 +2,14 @@
   <div class="aw">
     <div class="yaa">
       <div>
-        <h1>All Questions</h1>
+        <h1>By Tags</h1>
       </div>
       <div class="jumlah">
-        <p>{{questions.length}} questions</p>
+        <p>{{sameTags.length}} questions</p>
       </div>
     </div>
-    <div class="down"  v-if="questions.length !== 0">
-      <boxes></boxes>
+    <div class="baah"  v-if="sameTags.length !== 0">
+      <TAGboxes></TAGboxes>
     </div>
     <div v-else>
       <h1 class="oo">Please Create Question</h1>
@@ -19,12 +19,12 @@
 
 <script>
 import { mapState } from "vuex";
-import boxes from "../components/boxes";
+import TAGboxes from "../components/TAGboxes";
 export default {
   components: {
-    boxes
+    TAGboxes
   },
-  computed: mapState(["questions"]),
+  computed: mapState(["sameTags"]),
   created() {
     this.$store.dispatch("getQuestions");
   }
@@ -39,7 +39,7 @@ export default {
   height: 25%;
   padding: 5%;
   border-bottom: 1px solid #0002;
-  margin-bottom: 3%;
+  margin-bottom: 10%;
 }
 .down {
   height: 75%;

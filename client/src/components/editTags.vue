@@ -2,22 +2,16 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on" text>Create Question</v-btn>
+        <button v-on="on" @click="myTags">Edit</button>
       </template>
       <v-card>
-        <form @submit.prevent="addQuestion">
+        <form @submit.prevent="editTags">
           <v-card-title>
-            <span class="headline">Create Question</span>
+            <span class="headline">Edit Tags</span>
           </v-card-title>
           <v-card-text>
             <v-container>
               <v-row>
-                <v-col cols="12">
-                  <v-text-field label="Title" v-model="title" required></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field label="Question" v-model="pertanyaan" required></v-text-field>
-                </v-col>
                 <v-col cols="12">
                   <v-combobox
                     multiple
@@ -35,7 +29,7 @@
           <v-card-actions>
             <div class="flex-grow-1"></div>
             <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false" type="submit">Create</v-btn>
+            <v-btn color="blue darken-1" text @click="dialog = false" type="submit">Edit Tags</v-btn>
           </v-card-actions>
         </form>
       </v-card>
@@ -45,6 +39,7 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 export default {
   data: () => ({
     dialog: false,
@@ -52,28 +47,36 @@ export default {
     title: "",
     pertanyaan: ""
   }),
+  computed: mapState(["myT"]),
   methods: {
-    addQuestion() {
+    editTags() {
       let token = localStorage.getItem("access_token");
       axios({
-        method: "POST",
-        url: "http://localhost:3000/question/create",
+          method:'PATCH',
+          url:'http://localhost:3000/user/addTags',
+          headers: {
+              token
+          },
+          data:{
+              tagKu:this.select
+          }
+      }).then(({data})=>{
+          this.$store.dispatch('getMyTags')
+      }).catch(err => {
+          console.log(err)
+      })
+    },
+    myTags() {
+      let token = localStorage.getItem("access_token");
+      axios({
+        method: "GET",
+        url: "http://localhost:3000/user/myTags",
         headers: {
           token
-        },
-        data: {
-          title: this.title,
-          pertanyaan: this.pertanyaan,
-          tagku: this.select
         }
-      })
-        .then(({ data }) => {
-          this.$store.dispatch("getQuestions");
-          this.$store.dispatch("getMyQuestions")
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      }).then(({ data }) => {
+       this.select = data.tags
+      });
     }
   }
 };

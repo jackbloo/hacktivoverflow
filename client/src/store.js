@@ -8,7 +8,16 @@ export default new Vuex.Store({
   state: {
     questions: [],
     myQ: [],
-    oneQ: {}
+    oneQ: {
+      UserId: {},
+      upvote: [],
+      downvote: [],
+      answer: [],
+      tags: []
+    },
+    myT: [],
+    sameTags:[],
+    top10: []
   },
   mutations: {
     GETQUESTIONS(state, payload) {
@@ -19,6 +28,15 @@ export default new Vuex.Store({
     },
     GETONEQ(state, payload) {
       state.oneQ = payload
+    },
+    GETMYTAGS(state,payload){
+      state.myT = payload
+    },
+    GETSAMETAGS(state,payload){
+      state.sameTags = payload
+    },
+    GETTOP10(state,payload){
+      state.top10 = payload
     }
   },
   actions: {
@@ -72,7 +90,6 @@ export default new Vuex.Store({
     },
     upvoteQ(context, payload) {
       let id = payload
-      console.log(id)
       let token = localStorage.getItem('access_token')
       axios({
         method: 'PATCH',
@@ -140,6 +157,43 @@ export default new Vuex.Store({
         context.dispatch('getOneQuestion', questionId)
       }).catch(err => {
         console.log(err)
+      })
+    },
+    getMyTags({commit}){
+      let token = localStorage.getItem('access_token')
+      axios({
+        method:'GET',
+        url:'http://localhost:3000/user/myTags',
+        headers: {
+          token
+        }
+      }).then(({data})=>{
+        commit('GETMYTAGS', data.tags)
+      })
+    },
+    toTag({commit}, payload){
+      let token = localStorage.getItem('access_token')
+      let tags = payload
+      axios({
+        method:'GET',
+        url:`http://localhost:3000/question/tags/${tags}`,
+        headers: {
+          token
+        }
+      }).then(({data})=>{
+        commit('GETSAMETAGS',data.filtered)
+      })
+    },
+    getTop10({commit}){
+      let token = localStorage.getItem('access_token')
+      axios({
+        method:'GET',
+        url:'http://localhost:3000/vote/topTen',
+        headers: {
+          token
+        }
+      }).then(({data})=> {
+        commit('GETTOP10', data.top10)
       })
     }
   },

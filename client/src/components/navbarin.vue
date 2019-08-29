@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar>
-      <v-toolbar-title><router-link to="/overflow/all">HacktivOverflow</router-link></v-toolbar-title>
+      <v-toolbar-title><router-link to="/overflow/all"><i class="fab fa-stack-overflow"></i> HacktivOverflow</router-link></v-toolbar-title>
 
       <div class="flex-grow-1"></div>
 
@@ -22,7 +22,7 @@ export default {
 methods: {
   Logout(){
     localStorage.removeItem('access_token')
-    this.$router.push('/home')
+    this.$router.push('/home').catch(err => {})
   }
 }
 }

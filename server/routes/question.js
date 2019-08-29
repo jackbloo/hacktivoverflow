@@ -14,6 +14,5 @@ router.patch('/upvote/:id', questionController.upvote)
 router.patch('/downvote/:id', questionController.downvote)
 router.patch('/createTags', questionController.createTags)
 router.get('/tags/:tag', questionController.getTagsbyName)
-router.get('/topTen', questionController.getTopTen)
 
 module.exports = router;

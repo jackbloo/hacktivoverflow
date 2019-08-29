@@ -160,7 +160,6 @@ class answerController {
                 }
             })
             .then(results => {
-                console.log(results)
                 res.status(200).json(results)
             })
             .catch(next)

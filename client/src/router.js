@@ -52,6 +52,12 @@ export default new Router({
             './views/myQuestions.vue')
         },
         {
+          path: 'byTags',
+          name: 'byTags',
+          component: () => import( /* webpackChunkName: "byTags" */
+            './views/byTags.vue')
+        },
+        {
           path: ':id',
           name: 'allDetails',
           component: () => import( /* webpackChunkName: "allDetails" */
