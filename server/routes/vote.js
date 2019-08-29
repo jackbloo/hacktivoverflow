@@ -49,7 +49,9 @@ new CronJob('0 0 * * 0', function () {
                         res.status(200).json(response)
                     })
             })
-    })).catch(next)
+    })).catch(err => {
+        console.log(err)
+    })
 }, null, true, 'Asia/Jakarta');
 
 
