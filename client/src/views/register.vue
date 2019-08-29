@@ -62,7 +62,7 @@ export default {
       Swal.showLoading()
       axios({
         method: "POST",
-        url: "http://35.225.201.56/user/register",
+        url: "http://localhost:3000/user/register",
         data: {
           name: this.name,
           email: this.email,
@@ -71,8 +71,8 @@ export default {
       })
         .then(({ data }) => {
           Swal.close()
-          console.log(data)
           Swal.fire("Success!","Your Account is Created!", "success");
+          this.$router.push('/login').catch(err =>{})
         })
         .catch(err => {
           Swal.fire("Error",err.message, "error");

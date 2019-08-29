@@ -5,12 +5,14 @@ class answerController {
     static createanswer(req, res, next) {
         let {
             jawaban,
-            questionId
+            questionId,
+            title
         } = req.body
         let UserId = req.decode.id
         answer.create({
             jawaban,
             UserId,
+            title
         }).then(data => {
             return question.findByIdAndUpdate(questionId, {$push:{answer: data._id}},{new:true, runValidators:true})
             .then(data => {
@@ -39,6 +41,7 @@ class answerController {
         } = req.params
         let updateData = {}
         req.body.jawaban && (updateData.jawaban = req.body.jawaban)
+        req.body.title && (updateData.title = req.body.title)
         answer.findByIdAndUpdate(id, updateData, {
                 new: true
             })
@@ -50,12 +53,22 @@ class answerController {
     }
 
     static getanswers(req, res, next) {
-        answer.find()
+        answer.find().populate('UserId')
             .then(data => {
                 res.status(200).json({
                     data
                 })
             }).catch(next)
+    }
+
+    static getOneAnswer(req,res,next){
+        let {id} = req.params
+        answer.findById(id)
+        .then(data => {
+            res.status(200).json({
+                data
+            })
+        }).catch(next)
     }
 
     static getMyanswer(req, res, next) {
@@ -160,7 +173,6 @@ class answerController {
                 }
             })
             .then(results => {
-                console.log(results)
                 res.status(200).json(results)
             })
             .catch(next)

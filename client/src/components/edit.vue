@@ -2,7 +2,9 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on" text :max-width="10" @click="getOne(qId)"><i class="far fa-edit"></i></v-btn>
+        <v-btn color="primary" dark v-on="on" text :max-width="10" @click="getOne(qId)">
+          <i class="far fa-edit"></i>
+        </v-btn>
       </template>
       <v-card>
         <form @submit.prevent="editQuestion(qId)">
@@ -27,9 +29,6 @@
                     chips
                     deletable-chips
                     class="tag-input"
-                    :search-input.sync="search"
-                    @keyup.tab="updateTags"
-                    @paste="updateTags"
                   ></v-combobox>
                 </v-col>
               </v-row>
@@ -48,29 +47,25 @@
 
 <script>
 import axios from "axios";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
+import Swal from "sweetalert2"
 export default {
-    props:['qId'],
+  props: ["qId"],
   data: () => ({
     dialog: false,
     select: [],
-    items: [],
-    search: "",
     title: "",
     pertanyaan: ""
   }),
-  computed: mapState(['oneQ']),
+  computed: mapState(["oneQ"]),
   methods: {
-    updateTags() {
-      this.$nextTick(() => {
-        this.select.push(...this.search.split(","));
-        this.$nextTick(() => {
-          this.search = "";
-        });
-      });
-    },
     editQuestion(id) {
       let token = localStorage.getItem("access_token");
+      Swal.fire({
+        title: "Updating your Question...",
+        allowOutsideClick: () => !Swal.isLoading()
+      });
+      Swal.showLoading();
       axios({
         method: "PATCH",
         url: `http://localhost:3000/question/update/${id}`,
@@ -79,29 +74,32 @@ export default {
         },
         data: {
           title: this.title,
-          pertanyaan: this.pertanyaan
+          pertanyaan: this.pertanyaan,
+          tagku: this.select
         }
       })
         .then(({ data }) => {
-          this.$store.dispatch('getMyQuestions')
+          Swal.close()
+          Swal.fire("Success!","Your Question is updated!", "success");
+          this.$store.dispatch("getMyQuestions");
         })
         .catch(err => {
-          console.log(err);
+         Swal.fire("Error!",err.message, "error");
         });
     },
-    getOne(id){
-        let token = localStorage.getItem('access_token')
-        axios({
-            method:'GET',
-            url:`http://localhost:3000/question/mine/${id}`,
-            headers: {
-                token
-            }
-        }).then(({data})=>{
-            this.title = data.title
-            this.pertanyaan = data.pertanyaan
-            this.select = data.tags
-        })
+    getOne(id) {
+      let token = localStorage.getItem("access_token");
+      axios({
+        method: "GET",
+        url: `http://localhost:3000/question/mine/${id}`,
+        headers: {
+          token
+        }
+      }).then(({ data }) => {
+        this.title = data.title;
+        this.pertanyaan = data.pertanyaan;
+        this.select = data.tags;
+      });
     }
   }
 };

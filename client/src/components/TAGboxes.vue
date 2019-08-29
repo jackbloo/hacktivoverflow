@@ -1,27 +1,39 @@
 <template>
   <div>
-    <div class="box" v-for="(q,i) in oneQ.answer" :key="i">
+    <div class="box" v-for="(q,i) in sameTags" :key="i">
       <div class="kiri">
         <div class="satu">
-          <button @click="upAnswer(q._id)">
-            <i class="far fa-thumbs-up"></i>
-          </button>
+          <div class="vo">
+            <p class="viewdalam">{{q.upvote.length - q.downvote.length}}</p>
+          </div>
+          <div class="te">
+            <p class="viewdalam">votes</p>
+          </div>
         </div>
-        <div class="satu">{{q.upvote.length-q.downvote.length}}</div>
         <div class="satu">
-          <button @click="downAnswer(q._id)">
-            <i class="far fa-thumbs-down"></i>
-          </button>
+          <div class="vo">
+            <p class="viewdalam">{{q.answer.length}}</p>
+          </div>
+          <div class="te">
+            <p class="viewdalam">answer</p>
+          </div>
         </div>
       </div>
       <div class="kanan">
         <div class="up">
           <div class="juduls">
-            <h1>{{q.title}}</h1>
-            <p class="beda">{{q.jawaban}}</p>
+            <h4 @click="moveDetail(q._id)">{{q.title}}</h4>
+          </div>
+          <div class="isinya">
+            <p class="para">{{q.pertanyaan}}</p>
           </div>
         </div>
         <div class="turun">
+          <div>
+            <div class="tagg" >
+              <v-chip small v-for="(t,i) in q.tags" :key="i">{{t}}</v-chip>
+            </div>
+          </div>
           <div class="author">by: {{q.UserId.name}}</div>
         </div>
       </div>
@@ -32,25 +44,12 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  computed: mapState(["oneQ"]),
+  computed: mapState(["sameTags"]),
   methods: {
-    upAnswer(id) {
-      let payload = {
-        id,
-        questionId: this.$route.params.id
-      };
-      this.$store.dispatch("answerUp", payload);
-    },
-    downAnswer(id) {
-      let payload = {
-        id,
-        questionId: this.$route.params.id
-      };
-      this.$store.dispatch("answerDown", payload);
+    moveDetail(id) {
+      this.$router.push(`/overflow/${id}`);
+      this.$store.dispatch("getOneQuestion", id);
     }
-  },
-  created() {
-    this.$store.dispatch("getOneQuestion", this.$route.params.id);
   }
 };
 </script>
@@ -58,7 +57,7 @@ export default {
 <style>
 .box {
   border-bottom: 2px solid #0002;
-  height: 15%;
+  height:10%;
   display: flex;
   flex-direction: row;
 }
@@ -69,14 +68,13 @@ export default {
   width: 20%;
   display: flex;
   flex-direction: column;
-  padding: 5%;
 }
 .kanan {
   width: 80%;
   padding: 2%;
 }
 .satu {
-  height: 33.3%;
+  height: 50%;
   padding: 5%;
 }
 .viewdalam {
@@ -101,8 +99,6 @@ export default {
 }
 .juduls {
   height: 50%;
-  display: flex;
-  flex-direction: column;
 }
 .isinya {
   height: 50%;
@@ -112,6 +108,7 @@ export default {
 }
 h4 {
   text-align: justify;
+  cursor: grab;
 }
 p {
   text-align: justify;
@@ -121,8 +118,5 @@ p {
 }
 .author {
   width: 30%;
-}
-.beda {
-  cursor: default;
 }
 </style>

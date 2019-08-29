@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 Vue.use(Vuex);
 
@@ -8,7 +9,17 @@ export default new Vuex.Store({
   state: {
     questions: [],
     myQ: [],
-    oneQ: {}
+    oneQ: {
+      UserId: {},
+      upvote: [],
+      downvote: [],
+      answer: [],
+      tags: []
+    },
+    myT: [],
+    sameTags: [],
+    top10: [],
+    myA: []
   },
   mutations: {
     GETQUESTIONS(state, payload) {
@@ -19,6 +30,18 @@ export default new Vuex.Store({
     },
     GETONEQ(state, payload) {
       state.oneQ = payload
+    },
+    GETMYTAGS(state, payload) {
+      state.myT = payload
+    },
+    GETSAMETAGS(state, payload) {
+      state.sameTags = payload
+    },
+    GETTOP10(state, payload) {
+      state.top10 = payload
+    },
+    GETMYANSWERS(state, payload) {
+      state.myA = payload
     }
   },
   actions: {
@@ -72,8 +95,12 @@ export default new Vuex.Store({
     },
     upvoteQ(context, payload) {
       let id = payload
-      console.log(id)
       let token = localStorage.getItem('access_token')
+      Swal.fire({
+        title: 'Upvoting...',
+        allowOutsideClick: () => !Swal.isLoading()
+      })
+      Swal.showLoading()
       axios({
         method: 'PATCH',
         url: `http://localhost:3000/question/upvote/${id}`,
@@ -83,14 +110,21 @@ export default new Vuex.Store({
       }).then(({
         data
       }) => {
+        Swal.close()
+        Swal.fire("Success!", "You successfully upvoted!", "success");
         context.dispatch('getOneQuestion', id)
       }).catch(err => {
-        console.log(err)
+        Swal.fire("Error!", err.message, "error");
       })
     },
     downvoteQ(context, payload) {
       let id = payload
       let token = localStorage.getItem('access_token')
+      Swal.fire({
+        title: 'Downvoting...',
+        allowOutsideClick: () => !Swal.isLoading()
+      })
+      Swal.showLoading()
       axios({
         method: 'PATCH',
         url: `http://localhost:3000/question/downvote/${id}`,
@@ -100,15 +134,22 @@ export default new Vuex.Store({
       }).then(({
         data
       }) => {
+        Swal.close()
+        Swal.fire("Success!", "You successfully downvoted!!", "success");
         context.dispatch('getOneQuestion', id)
       }).catch(err => {
-        console.log(err)
+        Swal.fire("Error!", err.message, "error");
       })
     },
     answerUp(context, payload) {
       let questionId = payload.questionId
       let id = payload.id
       let token = localStorage.getItem('access_token')
+      Swal.fire({
+        title: 'Downvoting...',
+        allowOutsideClick: () => !Swal.isLoading()
+      })
+      Swal.showLoading()
       axios({
         method: 'PATCH',
         url: `http://localhost:3000/answer/upvote/${id}`,
@@ -118,16 +159,22 @@ export default new Vuex.Store({
       }).then(({
         data
       }) => {
-
+        Swal.close()
+        Swal.fire("Success!", "Your successfully upvoted!", "success");
         context.dispatch('getOneQuestion', questionId)
       }).catch(err => {
-        console.log(err)
+        Swal.fire("Error!", err.message, "error");
       })
     },
     answerDown(context, payload) {
       let questionId = payload.questionId
       let id = payload.id
       let token = localStorage.getItem('access_token')
+      Swal.fire({
+        title: 'Downvoting...',
+        allowOutsideClick: () => !Swal.isLoading()
+      })
+      Swal.showLoading()
       axios({
         method: 'PATCH',
         url: `http://localhost:3000/answer/downvote/${id}`,
@@ -137,9 +184,76 @@ export default new Vuex.Store({
       }).then(({
         data
       }) => {
+        Swal.close()
+        Swal.fire("Success!","Your Account is Created!", "success");
         context.dispatch('getOneQuestion', questionId)
       }).catch(err => {
         console.log(err)
+      })
+    },
+    getMyTags({
+      commit
+    }) {
+      let token = localStorage.getItem('access_token')
+      axios({
+        method: 'GET',
+        url: 'http://localhost:3000/user/myTags',
+        headers: {
+          token
+        }
+      }).then(({
+        data
+      }) => {
+        commit('GETMYTAGS', data.tags)
+      })
+    },
+    toTag({
+      commit
+    }, payload) {
+      let token = localStorage.getItem('access_token')
+      let tags = payload
+      axios({
+        method: 'GET',
+        url: `http://localhost:3000/question/tags/${tags}`,
+        headers: {
+          token
+        }
+      }).then(({
+        data
+      }) => {
+        commit('GETSAMETAGS', data.filtered)
+      })
+    },
+    getTop10({
+      commit
+    }) {
+      let token = localStorage.getItem('access_token')
+      axios({
+        method: 'GET',
+        url: 'http://localhost:3000/vote/topTen',
+        headers: {
+          token
+        }
+      }).then(({
+        data
+      }) => {
+        commit('GETTOP10', data.top10)
+      })
+    },
+    getMyAnswers({
+      commit
+    }) {
+      let token = localStorage.getItem('access_token')
+      axios({
+        method: 'GET',
+        url: 'http://localhost:3000/answer/mine',
+        headers: {
+          token
+        }
+      }).then(({
+        data
+      }) => {
+        commit('GETMYANSWERS', data.data)
       })
     }
   },

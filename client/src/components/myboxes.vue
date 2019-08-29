@@ -23,9 +23,12 @@
         <div class="up">
           <div class="juduls">
             <h4 @click="moveDetail(q._id)">{{q.title}}</h4>
-            <button @click="deleteQuestion(q._id)">
-              <i class="fas fa-trash-alt"></i>
-            </button>
+            <div class="hoho">
+              <button class="hoha" @click="deleteQuestion(q._id)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+              <edit :qId="q._id"></edit>
+            </div>
           </div>
           <div class="isinya">
             <p class="para">{{q.pertanyaan}}</p>
@@ -33,15 +36,14 @@
         </div>
         <div class="turun">
           <div v-if="q.tags.length !== 0">
-            <div class="tagg" v-for="(t,i) in q.tags" :key="i">
-              <v-chip>{{t}}</v-chip>
+            <div class="tagg">
+              <v-chip small v-for="(t,i) in q.tags" :key="i">{{t}}</v-chip>
             </div>
           </div>
           <div v-else>no tags</div>
 
           <div class="author">
             <p class="u">by: {{q.UserId.name}}</p>
-            <edit :qId="q._id"></edit>
           </div>
         </div>
       </div>
@@ -53,7 +55,7 @@
 import { mapState } from "vuex";
 import edit from "../components/edit";
 import axios from "axios";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 export default {
   components: {
     edit
@@ -105,7 +107,7 @@ export default {
 <style >
 .boxku {
   border-bottom: 2px solid #0002;
-  height: 20%;
+  height: 150px;
   display: flex;
   flex-direction: row;
 }
@@ -172,5 +174,15 @@ p {
 }
 .u {
   text-align: center;
+}
+.hoho {
+  width: 25%;
+  margin-right: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.hoha{
+  width: 50px;
 }
 </style>

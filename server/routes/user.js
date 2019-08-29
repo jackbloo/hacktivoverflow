@@ -7,5 +7,6 @@ router.post('/signin', userController.signIn)
 router.post('/register', userController.register)
 router.use(authentication)
 router.patch('/addTags', userController.addTags)
+router.get('/myTags', userController.getMyTags)
 
 module.exports = router;
