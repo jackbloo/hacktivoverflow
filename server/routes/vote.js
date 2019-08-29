@@ -9,7 +9,7 @@ router.get('/topTen', questionController.getVotes)
 // router.post('/create', questionController.createVotes)
 
 new CronJob('0 0 * * 0', function () {
-    router.patch('/topTen', questionController.changeTopTen)
+ questionController.changeTopTen
 }, null, true, 'Asia/Jakarta');
 
 
