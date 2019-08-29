@@ -9,6 +9,11 @@ For running
 
     npm run dev
 
+## Special Features
+
+- Using CRON it will fetch 3 highest votes every 1 week on sunday at 00:00 Asia/Jakarta local time
+- Watched Tags
+- upvoting and downvoting
 
 ## Routing
 
@@ -87,7 +92,7 @@ User creating questions
             type: string
             required: true
         },
-        tags:[]
+        tagku:[]
     },
     response status: {
         success: {
@@ -113,7 +118,7 @@ User can update their questions
     body: {
         title: String,
         pertanyaan: String,
-        tags: []
+        tags: [String]
     }, 
     response status: {
         success: {
@@ -150,7 +155,7 @@ Deleting User's questions
         }
     }
 
-## GET /questions/
+## GET /question/
 
 Get All questions
 
@@ -212,158 +217,209 @@ Get All questions
         }
     }
 
-## Cart Routing
+## PATCH /question/upvote/:id
 
-Include CRUD of cart
+ Update User's upvote question
 
-## POST /carts/:id
+    url: 'http://localhost:3000/question/upvote/:id'
+    headers: token *required*,
+    body: none,
+    response status: {
+        success: {
+            data : {
+                title,
+                pertanyaan,
+                upvote,
+                downvote,
+                UserId,
+                tags
+            },
+            status: 200
+        }
+    }
 
-User creating Carts
+## PATCH /question/downvote/:id
 
-    url: 'http://localhost:3000/carts/:id'
+ Update User's downvote question
+
+    url: 'http://localhost:3000/question/downvote/:id'
+    headers: token *required*,
+    body: none,
+    response status: {
+        success: {
+            data : {
+                title,
+                pertanyaan,
+                upvote,
+                downvote,
+                UserId,
+                tags
+            },
+            status: 200
+        }
+    }
+    
+## PATCH /question/createTags
+
+ Update User's question Tag
+
+    url: 'http://localhost:3000/question/createTags'
+    headers: token *required*,
+    body: none,
+    response status: {
+        success: {
+            data : {
+                title,
+                pertanyaan,
+                upvote,
+                downvote,
+                UserId,
+                tags
+            },
+            status: 200
+        }
+    }
+
+## GET /tags/:tag
+
+Get Tags by Name
+
+    url: 'http://localhost:3000/question/tags/:tag'
+    headers: token *required*,
+    body: none,
+    response status: {
+        success: {
+            data : {
+                title,
+                pertanyaan,
+                upvote,
+                downvote,
+                UserId,
+                tags
+            },
+            status: 200
+        }
+    }
+
+## answer Routing
+
+Include CRU of answer
+
+## POST /answer/create
+
+User creating answers
+
+    url: 'http://localhost:3000/answer/create'
     headers: token *required*,
     body: {
-       questionName: {
+    title:{
+        type:String,
+        required: true
+     },
+    jawaban: {
         type: String,
         required: true
-    },
-    questionPrice: {
-        type: String,
-        required: true
-    },
-    quantity:{
-        type: Number,
-        default: 0
-    },
-    questionStock: {
-        type: Number,
-        required: true
-    },
-    checkout_status: {
-        type: Boolean,
-        default:false
-    },
-    questionId: {type: Schema.Types.ObjectId, ref: 'questions'},
-    UserId: {type: Schema.Types.ObjectId, ref: 'users' },
-    transactionId: {type: Schema.Types.ObjectId, ref: 'transactions'}
+     },
     },
     response status: {
         success: {
             data : {
-                questionName
-                questionPrice
-                quantity
-                questionStock
-                checkout_status
-                questionId
-                UserId
-                transactionId
+            title
+            jawaban
+            UserId
+            upvote
+            downvote
             },
             status: 201
         }
     }
 
 
-## PATCH /carts/:id
+## PATCH /answer/update/:id
 
-User can update their carts
+User can update their answers
 
-    url: 'http://localhost:3000/carts/:id'
+    url: 'http://localhost:3000/answer/update/:id'
     headers: token *required*,
     body: {
-        questionName
-        questionPrice
-        quantity
-        questionStock
-        checkout_status
-        questionId
-        UserId
-        transactionId
+    title:{
+        type:String,
+        required: true
+     },
+    jawaban: {
+        type: String,
+        required: true
+     },
     }, 
     response status: {
         success: {
             data : {
-        questionName
-        questionPrice
-        quantity
-        questionStock
-        checkout_status
-        questionId
-        UserId
-        transactionId
+            title
+            jawaban
+            UserId
+            upvote
+            downvote
             },
             status: 201
         }
     }
 
-## DELETE /carts/:id
 
-Deleting User's carts
 
-    url: 'http://localhost:3000/carts/:id'
-    headers: token *required*
-    body: none,
-    response status: {
-        success: {
-            data : {
-        questionName
-        questionPrice
-        quantity
-        questionStock
-        checkout_status
-        questionId
-        UserId
-        transactionId
-            },
-            status: 200
-        }
-    }
+## GET /answer/
 
-## GET /carts/
+Get All answer
 
-Get All carts
-    url: 'http://localhost:3000/carts',
+    url: 'http://localhost:3000/answer',
     headers: token *required*,
     body: none,
     response status: {
         success: {
-            name : {
-                type: string
-            },
             data:{
-            questionName
-            questionPrice
-            quantity
-            questionStock
-            checkout_status
-            questionId
+           title
+            jawaban
             UserId
-            transactionId
+            upvote
+            downvote
             },
             status: 200
         }
     }
-## GET /carts/:id
+## GET /answer/mine/:id
 
- Get One cart
+ Get One answer
 
-    url: 'http://localhost:3000/carts/:id'
+    url: 'http://localhost:3000/answer/mine/:id'
     headers: token *required*,
-    body: 
-    id: {
-        type: String
-        },
+    body: none,
     response status: {
         success: {
             data : {
-        questionName
-        questionPrice
-        quantity
-        questionStock
-        checkout_status
-        questionId
-        UserId
-        transactionId
+            title
+            jawaban
+            UserId
+            upvote
+            downvote
+            },
+            status: 200
+        }
+    }
+
+## GET /answer/mine
+
+ Get User's question
+
+    url: 'http://localhost:3000/answer/mine'
+    headers: token *required*,
+    body: none,
+    response status: {
+        success: {
+            data : {
+            title
+            jawaban
+            UserId
+            upvote
+            downvote
             },
             status: 200
         }
@@ -377,7 +433,7 @@ Include Login of Admin
 
 Admin login
 
-    url: 'http://localhost:3000/carts/:id'
+    url: 'http://localhost:3000/answers/:id'
     headers: token *required*,
     body: {
     username: {
@@ -397,113 +453,7 @@ Admin login
             status: 201
         }
     }
-## Transactions Routing
 
-Include CRUD of Transactions
-
-## POST /transaction/create
-
-Creating transaction
-
-    url: 'http://localhost:3000/transaction/create'
-    headers: token *required*,
-    body: {
-       total_price:{
-        type: Number,
-        required: true
-    },
-    UserId: {type: Schema.Types.ObjectId, ref: 'users' },
-    send_status: {
-        type: Boolean,
-        default: false
-    },
-    arrived_status: {
-        type: Boolean,
-        default:false
-    }
-    },
-    response status: {
-        success: {
-            data : {
-               total_price
-                UserId
-                send_status
-                arrived_status
-            },
-            status: 201
-        }
-    }
-
-
-## PATCH /transaction/:id
-
-Updating transaction
-
-    url: 'http://localhost:3000/transaction/:id'
-    headers: token *required*,
-    body: {
-    total_price
-    UserId
-    send_status
-    arrived_status
-    }, 
-    response status: {
-        success: {
-            data : {
-       total_price
-        UserId
-        send_status
-        arrived_status
-            },
-            status: 201
-        }
-    }
-
-
-## GET /transaction/
-
-Get All transactions
-
-    url: 'http://localhost:3000/transaction',
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            name : {
-                type: string
-            },
-            data:{
-         total_price
-        UserId
-        send_status
-        arrived_status
-            },
-            status: 200
-        }
-    }
-## GET /transaction/:id
-
- Get One transaction
-
-    url: 'http://localhost:3000/transaction/:id'
-    headers: token *required*,
-    body: 
-    id: {
-        type: String
-        },
-    response status: {
-        success: {
-            data : {
-       total_price
-        UserId
-        send_status
-        arrived_status
-            },
-            status: 200
-        }
-    }
-
-    
 
 
 
