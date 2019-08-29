@@ -63,7 +63,7 @@ export default {
       Swal.showLoading();
       axios({
         method: "POST",
-        url: "http://localhost:3000/question/create",
+        url: "http://18.191.103.187/question/create",
         headers: {
           token
         },
