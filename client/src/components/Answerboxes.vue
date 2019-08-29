@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="boxy" v-for="(q,i) in questions" :key="i">
+    <div class="boxku" v-for="(q,i) in myA" :key="i">
       <div class="kiri">
         <div class="satu">
           <div class="vo">
@@ -10,32 +10,18 @@
             <p class="viewdalam">votes</p>
           </div>
         </div>
-        <div class="satu">
-          <div class="vo">
-            <p class="viewdalam">{{q.answer.length}}</p>
-          </div>
-          <div class="te">
-            <p class="viewdalam">answer</p>
-          </div>
-        </div>
       </div>
       <div class="kanan">
         <div class="up">
           <div class="juduls">
-            <h4 @click="moveDetail(q._id)">{{q.title}}</h4>
-          </div>
-          <div class="isinya">
-            <p class="para">{{q.pertanyaan}}</p>
-          </div>
-        </div>
-        <div class="turun">
-          <div v-if="q.tags.length !== 0">
-            <div class="tagg" >
-              <v-chip small v-for="(t,i) in q.tags" :key="i">{{t}}</v-chip>
+            <h4>{{q.title}}</h4>
+            <div class="hoho">
+              <editAnswer :qId="q._id"></editAnswer>
             </div>
           </div>
-          <div v-else>no tags</div>
-          <div class="author">by: {{q.UserId.name}}</div>
+          <div class="isinya">
+            <p class="para">{{q.jawaban}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -44,23 +30,28 @@
 
 <script>
 import { mapState } from "vuex";
+import editAnswer from "../components/editAnswer";
+import axios from "axios";
+import Swal from "sweetalert2";
 export default {
-  computed: mapState(["questions"]),
+  components: {
+    editAnswer
+  },
+  computed: mapState(["myA"]),
   methods: {
-    moveDetail(id) {
-      this.$router.push(`/overflow/${id}`);
-      this.$store.dispatch("getOneQuestion", id);
-    }
   }
 };
 </script>
 
-<style>
-.boxy {
+<style >
+.boxku {
   border-bottom: 2px solid #0002;
-  height:160px;
+  height: 150px;
   display: flex;
   flex-direction: row;
+}
+.jumlah {
+  margin-top: 2%;
 }
 .kiri {
   width: 20%;
@@ -69,7 +60,7 @@ export default {
 }
 .kanan {
   width: 80%;
-  padding: 2%;
+  padding: 1%;
 }
 .satu {
   height: 50%;
@@ -85,7 +76,7 @@ export default {
   height: 50%;
 }
 .up {
-  height: 60%;
+  height: 40%;
   display: flex;
   flex-direction: column;
 }
@@ -97,6 +88,9 @@ export default {
 }
 .juduls {
   height: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .isinya {
   height: 50%;
@@ -106,18 +100,28 @@ export default {
 }
 h4 {
   text-align: justify;
-  cursor: grab;
 }
 p {
   text-align: justify;
 }
 .tagg {
-  width: 70%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  width: 60%;
 }
 .author {
-  width: 30%;
+  width: 40%;
+  align-items: center;
+}
+.u {
+  text-align: center;
+}
+.hoho {
+  width: 25%;
+  margin-right: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.hoha{
+  width: 50px;
 }
 </style>

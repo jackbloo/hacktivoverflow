@@ -39,7 +39,7 @@ export default {
   height: 25%;
   padding: 5%;
   border-bottom: 1px solid #0002;
-  margin-bottom: 3%;
+  margin-bottom: 1%;
 }
 .down {
   height: 75%;

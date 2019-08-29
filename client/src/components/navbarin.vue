@@ -15,12 +15,14 @@
 
 <script>
 import createQuestion from '../components/createQuestion'
+import Swal from "sweetalert2"
 export default {
   components: {
     createQuestion
   },
 methods: {
   Logout(){
+    Swal.fire("Success!","See you soon!", "success");
     localStorage.removeItem('access_token')
     this.$router.push('/home').catch(err => {})
   }

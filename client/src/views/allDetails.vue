@@ -26,7 +26,7 @@
         <div class="d">
           <div class="ri">
             <div v-if="oneQ.tags.length !==0">
-              <div >
+              <div>
                 <v-chip small v-for="(o,k) in oneQ.tags" :key="k">{{o}}</v-chip>
               </div>
             </div>
@@ -39,11 +39,20 @@
     <div class="reply">
       <v-col cols="12">
         <form @submit.prevent="addReply(oneQ._id)">
+          <textarea
+            name
+            id
+            cols="15"
+            rows="1"
+            placeholder="title"
+            style="border: 1px solid black;"
+            v-model="title"
+          ></textarea>
           <v-textarea
             v-model="jawaban"
             solo
             name="input-7-4"
-            label="Solo textarea"
+            label="Insert Answer"
             :full-width="true"
           ></v-textarea>
           <v-btn color="primary" text :max-width="10" type="submit">reply</v-btn>
@@ -65,13 +74,15 @@
 import { mapState } from "vuex";
 import allanswer from "../components/allanswer";
 import axios from "axios";
+import Swal from "sweetalert2";
 export default {
   components: {
     allanswer
   },
   data() {
     return {
-      jawaban: ""
+      jawaban: "",
+      title: ""
     };
   },
   computed: mapState(["oneQ"]),
@@ -86,6 +97,11 @@ export default {
     },
     addReply(id) {
       let token = localStorage.getItem("access_token");
+      Swal.fire({
+        title: "Adding your reply...",
+        allowOutsideClick: () => !Swal.isLoading()
+      });
+      Swal.showLoading();
       axios({
         method: "POST",
         url: "http://localhost:3000/answer/create",
@@ -94,14 +110,17 @@ export default {
         },
         data: {
           jawaban: this.jawaban,
-          questionId: id
+          questionId: id,
+          title: this.title
         }
       })
         .then(({ data }) => {
+          Swal.close()
+          Swal.fire("Success!","Your Reply is Created!", "success");
           this.$store.dispatch("getOneQuestion", id);
         })
         .catch(err => {
-          console.log(err);
+          Swal.fire("Error!",err.message, "error");
         });
     }
   },
@@ -177,7 +196,7 @@ h3 {
 }
 .reply {
   width: 100%;
-  height: 35%;
+  height: 50%;
   border-bottom: 1px solid #0002;
   display: flex;
   flex-direction: column;

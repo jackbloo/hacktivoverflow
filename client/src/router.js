@@ -5,9 +5,6 @@ import Home from './views/Home.vue';
 Vue.use(Router);
 
 
-
-
-
 // {
 //   path: '/about',
 //   name: 'about',
@@ -56,6 +53,12 @@ export default new Router({
           name: 'byTags',
           component: () => import( /* webpackChunkName: "byTags" */
             './views/byTags.vue')
+        },
+        {
+          path: 'myAnswers',
+          name: 'myAnswers',
+          component: () => import( /* webpackChunkName: "myAnswers" */
+            './views/myAnswers.vue')
         },
         {
           path: ':id',

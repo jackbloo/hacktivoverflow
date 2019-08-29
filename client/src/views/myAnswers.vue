@@ -2,31 +2,31 @@
   <div class="all">
     <div class="pp">
       <div>
-        <h1>My Questions</h1>
+        <h1>My Answers</h1>
       </div>
       <div class="jumlah">
-        <p>{{myQ.length}} questions</p>
+        <p>{{myA.length}} answers</p>
       </div>
     </div>
-    <div class="ba" v-if="myQ.length !== 0">
-      <myboxes></myboxes>
+    <div class="ba" v-if="myA.length !== 0">
+      <Answerboxes></Answerboxes>
     </div>
     <div v-else>
-      <h1 class="oo">Please Create Question</h1>
+      <h1 class="oo">Please Create Answer</h1>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import myboxes from '../components/myboxes'
+import Answerboxes from '../components/Answerboxes.vue'
 export default {
     components: {
-        myboxes
+        Answerboxes
     },
-    computed: mapState(["myQ"]),
+    computed: mapState(["myA"]),
     created(){
-      this.$store.dispatch('getMyQuestions')
+      this.$store.dispatch('getMyAnswers')
     }
 };
 </script>

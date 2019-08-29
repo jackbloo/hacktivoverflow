@@ -45,6 +45,7 @@
 
 <script>
 import axios from "axios";
+import Swal from "sweetalert2";
 export default {
   data: () => ({
     dialog: false,
@@ -55,6 +56,11 @@ export default {
   methods: {
     addQuestion() {
       let token = localStorage.getItem("access_token");
+      Swal.fire({
+        title: "Adding your question...",
+        allowOutsideClick: () => !Swal.isLoading()
+      });
+      Swal.showLoading();
       axios({
         method: "POST",
         url: "http://localhost:3000/question/create",
@@ -68,11 +74,13 @@ export default {
         }
       })
         .then(({ data }) => {
+          Swal.close()
+          Swal.fire("Success!","Your Question is Created!", "success");
           this.$store.dispatch("getQuestions");
-          this.$store.dispatch("getMyQuestions")
+          this.$store.dispatch("getMyQuestions");
         })
         .catch(err => {
-          console.log(err);
+          Swal.fire("Error!",err.message, "error");
         });
     }
   }

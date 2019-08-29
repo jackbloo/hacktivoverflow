@@ -49,18 +49,44 @@ class questionController {
         let {
             id
         } = req.params
+        let {
+            tagku
+        } = req.body
         let updateData = {}
         req.body.title && (updateData.title = req.body.title)
         req.body.pertanyaan && (updateData.pertanyaan = req.body.pertanyaan)
         question.findByIdAndUpdate(id, updateData, {
                 new: true
             })
-            .then(data => {
-                res.status(200).json({
-                    data
-                })
-            })
+            .then(data2 => {
+                return question.findByIdAndUpdate(id, {
+                        $set: {
+                            tags: []
+                        }
+                    }, {
+                        new: true,
+                        runValidators: true
+                    })
+                    .then(data1 => {
+                        return question.findByIdAndUpdate(id, {
+                                $addToSet: {
+                                    tags: {
+                                        $each: tagku
+                                    }
+                                }
+                            }, {
+                                new: true,
+                                runValidators: true
+                            })
+                            .then(data => {
+                                res.status(200).json({
+                                    data
+                                })
+                            })
+                    })
+            }).catch(next)
     }
+
 
     static getQuestions(req, res, next) {
         question.find().populate('UserId').sort({
@@ -93,9 +119,17 @@ class questionController {
         let {
             id
         } = req.params
-        question.findById(id).populate('answer').sort({
-                createdAt: -1
-            }).populate('UserId')
+        question.findById(id).populate({
+                path: 'answer',
+                populate: {
+                    path: 'UserId'
+                },
+                options: {
+                    sort: {
+                        createdAt: -1
+                    }
+                }
+            })
             .then(data => {
                 res.send(data)
             }).catch(next)
@@ -257,36 +291,56 @@ class questionController {
                 })
                 let top3 = top10Ku.splice(0, 3)
                 let id = '5d6759e47b8e8532fb2d7d16'
-                return votes.findByIdAndUpdate(id,{$set:{topvotes:[]}},{new: true, runValidators:true})
-                .then(data2 => {
-                    return votes.findByIdAndUpdate(id,{$addToSet:{topvotes:{$each:top3}}},{new:true, runValidators:true})
-                    .then(response => {
-                        res.status(200).json(response)
+                return votes.findByIdAndUpdate(id, {
+                        $set: {
+                            topvotes: []
+                        }
+                    }, {
+                        new: true,
+                        runValidators: true
                     })
-                })
+                    .then(data2 => {
+                        return votes.findByIdAndUpdate(id, {
+                                $addToSet: {
+                                    topvotes: {
+                                        $each: top3
+                                    }
+                                }
+                            }, {
+                                new: true,
+                                runValidators: true
+                            })
+                            .then(response => {
+                                res.status(200).json(response)
+                            })
+                    })
             })).catch(next)
 
     }
 
     static createVotes(req, res, next) {
-        let {name} = req.body
-        votes.create({name})
-        .then(data => {
-            res.status(200).json({
-                data
+        let {
+            name
+        } = req.body
+        votes.create({
+                name
             })
-        })
+            .then(data => {
+                res.status(200).json({
+                    data
+                })
+            })
     }
 
-    static getVotes(req,res,next){
+    static getVotes(req, res, next) {
         let id = '5d6759e47b8e8532fb2d7d16'
         votes.findById(id)
-        .then(data => {
-            let top10 = data.topvotes
-            res.status(200).json({
-                top10
+            .then(data => {
+                let top10 = data.topvotes
+                res.status(200).json({
+                    top10
+                })
             })
-        })
     }
 
 

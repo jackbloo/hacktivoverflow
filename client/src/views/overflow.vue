@@ -10,6 +10,9 @@
             <router-link to="/overflow/myQuestions">
               <button @click="takeMine">My Questions</button>
             </router-link>
+            <router-link to="/overflow/myAnswers">
+              <button @click="takeMine">My Answers</button>
+            </router-link>
           </div>
           <div>PUBLIC</div>
           <div class="list">
@@ -128,5 +131,9 @@ export default {
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
+}
+.quest {
+  display: flex;
+  flex-direction: column;
 }
 </style>

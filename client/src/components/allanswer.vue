@@ -17,11 +17,12 @@
       <div class="kanan">
         <div class="up">
           <div class="juduls">
-            <h4 class="beda">{{q.jawaban}}</h4>
+            <h1>{{q.title}}</h1>
+            <p class="beda">{{q.jawaban}}</p>
           </div>
         </div>
         <div class="turun">
-          <div class="author">{{q.UserId.name}}</div>
+          <div class="author">by: {{q.UserId.name}}</div>
         </div>
       </div>
     </div>
@@ -100,6 +101,8 @@ export default {
 }
 .juduls {
   height: 50%;
+  display: flex;
+  flex-direction: column;
 }
 .isinya {
   height: 50%;
