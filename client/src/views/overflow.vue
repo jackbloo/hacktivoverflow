@@ -29,7 +29,7 @@
       </div>
       <div class="right">
         <div class="tagging">
-          Tags
+          Watched Tags
           <editTags></editTags>
           <div class="semuatag">
             <tags :tak="t" v-for="(t,i) in myT" :key="i"></tags>
@@ -84,6 +84,7 @@ export default {
   height: 90%;
   display: flex;
   flex-direction: row;
+  background-color: white;
 }
 .left {
   width: 20%;
@@ -92,7 +93,6 @@ export default {
 .mid {
   width: 60%;
   height: 100%;
-  border-left: 2px solid #0002;
   display: flex;
   flex-direction: column;
 }

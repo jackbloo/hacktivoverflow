@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="boxku" v-for="(q,i) in myQ" :key="i">
+    <div class="boxku mb-2" v-for="(q,i) in myQ" :key="i">
       <div class="kiri">
         <div class="satu">
           <div class="vo">
@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="turun">
-          <div v-if="q.tags.length !== 0">
+          <div class="oye" v-if="q.tags.length !== 0">
             <div class="tagg">
               <v-chip small v-for="(t,i) in q.tags" :key="i">{{t}}</v-chip>
             </div>
@@ -106,10 +106,12 @@ export default {
 
 <style >
 .boxku {
-  border-bottom: 2px solid #0002;
   height: 150px;
   display: flex;
   flex-direction: row;
+  -webkit-box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
 }
 .jumlah {
   margin-top: 2%;
@@ -166,10 +168,13 @@ p {
   text-align: justify;
 }
 .tagg {
-  width: 60%;
+   width: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 .author {
-  width: 40%;
+  width: 100px;
   align-items: center;
 }
 .u {
@@ -181,8 +186,5 @@ p {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-}
-.hoha{
-  width: 50px;
 }
 </style>

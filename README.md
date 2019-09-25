@@ -2,7 +2,7 @@
 Best HacktivOverFlow Ever
 
 #link
-http://jack-overflow.s3-website-ap-southeast-1.amazonaws.com/home
+http://jack-overflow.jackbloo.com
 
 ## Installation
 
@@ -22,17 +22,27 @@ For running
 
 Complete Routing of this App
 
-##  User Routes
+#  User Routes
 
-Includes SignIn  and Regisitration
+Includes SignIn and Registration
 
-## POST /user/signin
+# POST /user/signin
 
 To Sign In without using google authorization
 
-    url: 'http://localhost:3000/user/signin'
-    headers: token *required*,
-    body: {
+
+* **URL** 
+
+    http://localhost:3000/user/signin
+
+* **METHOD** 
+
+    POST
+* **URL Params**
+
+    **none**
+* **Data Params** 
+
         email:{
             type: string
             required: true
@@ -41,25 +51,45 @@ To Sign In without using google authorization
             type: string
             required: true
         }
-    },
-    response status: {
-        success: {
-            status: 200,
-            token
+
+* **Success Response** 
+
+        {
+            message: 'Login Success'
+            status: 200
         }
-    }
 
+* **Error Response** 
 
-## POST /user/register
+        {
+            httpStatus: 400,
+            message: 'Wrong Email/Password'
+        }
+        or
+        {
+            httpStatus: 404,
+            message: 'Email Not Found'    
+        }
 
-To Register Account in Hacktivoverflow
+# POST /user/register
 
-    url: 'http://localhost:3000/user/register'
-    headers: none,
-    body: {
+To Register 
+
+* **URL**
+
+    http://localhost:3000/user/register
+
+* **METHOD** 
+
+    POST
+* **URL Params**
+
+    **none**
+* **Data Params** 
+
         name:{
-            type: string
-            required: true
+        type: string
+        required: true
         } ,
         email:{
             type: string
@@ -69,12 +99,20 @@ To Register Account in Hacktivoverflow
             type:string,
             required:true
         }
-    },
-    response status: {
-        success: {
-            status: 201
-        }
-    }
+
+* **Success Response** 
+
+            {
+                message: 'Account is successfully created',
+                status: 201
+            }
+
+* **Error Response** 
+
+            {
+                message: 'Internal Sever Error'
+                status: 500
+            }
 
 ## question Routes
 
@@ -84,225 +122,514 @@ Includes, CRUD of questions
 
 User creating questions 
 
-    url: 'http://localhost:3000/questions/create'
-    headers: token *required*,
-    body: {
-        title:{
-            type: string
-            required: true
-        } ,
-        pertanyaan:{
-            type: string
-            required: true
-        },
-        tagku:[]
-    },
-    response status: {
-        success: {
-            data : {
-                title,
-                pertanyaan,
-                upvote,
-                downvote,
-                UserId,
-                tags
+
+* **URL** 
+
+    http://localhost:3000/questions/create
+
+* **METHOD**
+
+    POST
+
+* **Headers**
+
+    token:
+
+                eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    **none**
+
+* **Data Params** 
+
+        {
+            title:{
+                type: string
+                required: true
+            } ,
+            pertanyaan:{
+                type: string
+                required: true
             },
-            status: 201
+            tagku:[]
         }
-    }
+
+* **Success Response** 
+
+
+        data: {
+            title:{
+                type: string
+                required: true
+            } ,
+            pertanyaan:{
+                type: string
+                required: true
+            },
+            tagku:[]
+        },
+        status: 201
+
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
+        }
 
 
 ## PATCH /question/update/:id
 
 User can update their questions
 
-    url: 'http://localhost:3000/question/update/:id'
-    headers: token *required*,
-    body: {
-        title: String,
-        pertanyaan: String,
-        tags: [String]
-    }, 
-    response status: {
-        success: {
-            data : {
-                title,
-                pertanyaan,
-                upvote,
-                downvote,
-                UserId,
-                tags
-            },
-            status: 201
+* **URL** 
+
+    http://localhost:3000/question/update/:id
+
+* **METHOD**
+
+    PATCH 
+
+* **Headers**
+
+    token:
+
+                eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+             {
+                title:{
+                    type: string
+                    required: true
+                } ,
+                pertanyaan:{
+                    type: string
+                    required: true
+                },
+                tagku:[]
+                },
+            }
+
+* **Success Response**
+
+            data: {
+                title:{
+                    type: string
+                    required: true
+                } ,
+                pertanyaan:{
+                    type: string
+                    required: true
+                },
+                tagku:[]
+                },
+        status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
 
 ## DELETE /question/:id
 
 Deleting User's questions
 
-    url: 'http://localhost:3000/question/:id'
-    headers: token *required*
-    body: none,
-    response status: {
-        success: {
-            data : {
-                title,
-                pertanyaan,
-                upvote,
-                downvote,
-                UserId,
-                tags
-            },
+* **URL** 
+
+    http://localhost:3000/question/:id
+
+* **METHOD**
+
+    DELETE  
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+        **none**
+
+* **Success Response** 
+
+
+            data: {
+                title:{
+                    type: string
+                    required: true
+                } ,
+                pertanyaan:{
+                    type: string
+                    required: true
+                },
+                tagku:[]
+                },
             status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+
 
 ## GET /question/
 
 Get All questions
 
-    url: 'http://localhost:3000/questions',
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            data:{
-                title,
-                pertanyaan,
-                upvote,
-                downvote,
-                UserId,
-                tags
-            },
+* **URL**
+
+    http://localhost:3000/questions
+
+* **METHOD**
+
+    GET
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    **none**
+
+* **Data Params** 
+
+        **none**
+
+* **Success Response** 
+
+            data: [{
+                title:{
+                    type: string
+                    required: true
+                } ,
+                pertanyaan:{
+                    type: string
+                    required: true
+                },
+                tagku:[]
+                }],
             status: 200
+
+* **Error Response** 
+
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+
+
 ## GET /question/mine/:id
 
  Get One question
 
-    url: 'http://localhost:3000/question/mine/:id'
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            data : {
-                title,
-                pertanyaan,
-                upvote,
-                downvote,
-                UserId,
-                tags
-            },
+ * **URL** 
+
+        http://localhost:3000/question/mine/:id
+
+* **METHOD**
+
+    GET
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+    **none**
+
+* **Success Response** 
+
+            data: {
+                title:{
+                    type: string
+                    required: true
+                } ,
+                pertanyaan:{
+                    type: string
+                    required: true
+                },
+                tagku:[]
+                },
             status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
 
 ## GET /question/mine
 
  Get User's question
 
-    url: 'http://localhost:3000/question/mine'
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            data : {
-                title,
-                pertanyaan,
-                upvote,
-                downvote,
-                UserId,
-                tags
-            },
+* **URL** 
+
+    http://localhost:3000/question/mine
+
+* **METHOD**
+
+    GET
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    **none**
+
+* **Data Params** 
+
+    **none**
+
+* **Success Response** 
+
+            data: [{
+                title:{
+                    type: string
+                    required: true
+                } ,
+                pertanyaan:{
+                    type: string
+                    required: true
+                },
+                tagku:[]
+                }],
             status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
 
 ## PATCH /question/upvote/:id
 
  Update User's upvote question
 
-    url: 'http://localhost:3000/question/upvote/:id'
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            data : {
-                title,
-                pertanyaan,
-                upvote,
-                downvote,
-                UserId,
-                tags
-            },
+
+* **URL**
+
+    http://localhost:3000/question/upvote/:id
+
+* **METHOD**
+
+    PATCH
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params**
+
+    **none**
+
+* **Success Response** 
+
+            data: {
+                title:{
+                    type: string
+                    required: true
+                } ,
+                pertanyaan:{
+                    type: string
+                    required: true
+                },
+                tagku:[]
+                },
             status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+
 
 ## PATCH /question/downvote/:id
 
  Update User's downvote question
 
-    url: 'http://localhost:3000/question/downvote/:id'
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            data : {
-                title,
-                pertanyaan,
-                upvote,
-                downvote,
-                UserId,
-                tags
-            },
+* **URL** 
+
+        http://localhost:3000/question/downvote/:id
+
+* **METHOD**
+
+    PATCH
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params**
+
+    **none**
+
+* **Success Response** 
+
+
+            data: {
+                title:{
+                    type: string
+                    required: true
+                } ,
+                pertanyaan:{
+                    type: string
+                    required: true
+                },
+                tagku:[]
+                },
             status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
-    
+
+
 ## PATCH /question/createTags
 
  Update User's question Tag
 
-    url: 'http://localhost:3000/question/createTags'
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            data : {
-                title,
-                pertanyaan,
-                upvote,
-                downvote,
-                UserId,
-                tags
-            },
+
+* **URL** 
+
+    http://localhost:3000/question/createTags
+
+* **METHOD**
+
+    PATCH
+
+* **Headers**
+
+    token:
+
+       eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    **none**
+
+* **Data Params** 
+    
+                 {
+                    tagku:[]
+                  }
+
+* **Success Response** 
+
+                data: {
+                    tagku:[]
+                  },
             status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
 
 ## GET /tags/:tag
 
 Get Tags by Name
 
-    url: 'http://localhost:3000/question/tags/:tag'
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            data : {
-                title,
-                pertanyaan,
-                upvote,
-                downvote,
-                UserId,
-                tags
-            },
+
+* **URL** 
+
+
+        http://localhost:3000/question/tags/:tag     
+
+* **METHOD**
+
+    GET
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    tag=[string]
+
+* **Data Params** 
+
+    **none**
+
+* **Success Response**
+
+            data: {
+                    tagku:[]
+                  },
             status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+
 
 ## answer Routing
 
@@ -312,60 +639,116 @@ Include CRU of answer
 
 User creating answers
 
-    url: 'http://localhost:3000/answer/create'
-    headers: token *required*,
-    body: {
-    title:{
-        type:String,
-        required: true
-     },
-    jawaban: {
-        type: String,
-        required: true
-     },
-    },
-    response status: {
-        success: {
-            data : {
-            title
-            jawaban
-            UserId
-            upvote
-            downvote
-            },
-            status: 201
+
+* **URL**
+
+    http://localhost:3000/answer/create
+
+* **METHOD**
+
+    POST
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    **none**
+
+* **Data Params**
+    
+            {
+                title:{
+                    type:String,
+                    required: true
+                },
+                jawaban: {
+                    type: String,
+                    required: true
+                },
+            }
+
+* **Success Response** 
+
+            {
+                data : {
+                    title
+                    jawaban
+                    UserId
+                    upvote
+                    downvote
+                    },
+                status: 201
+            }
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+
 
 
 ## PATCH /answer/update/:id
 
 User can update their answers
 
-    url: 'http://localhost:3000/answer/update/:id'
-    headers: token *required*,
-    body: {
-    title:{
-        type:String,
-        required: true
-     },
-    jawaban: {
-        type: String,
-        required: true
-     },
-    }, 
-    response status: {
-        success: {
-            data : {
-            title
-            jawaban
-            UserId
-            upvote
-            downvote
-            },
-            status: 201
+* **URL**
+
+        http://localhost:3000/answer/update/:id
+
+* **METHOD**
+
+    PATCH
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+            {
+                title:{
+                    type:String,
+                    required: true
+                },
+                jawaban: {
+                    type: String,
+                    required: true
+                },
+            }
+
+* **Success Response**
+
+        {
+                data : {
+                title
+                jawaban
+                UserId
+                upvote
+                downvote
+                },
+                status: 200
         }
-    }
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
+        }
 
 
 
@@ -373,101 +756,158 @@ User can update their answers
 
 Get All answer
 
-    url: 'http://localhost:3000/answer',
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            data:{
-           title
-            jawaban
-            UserId
-            upvote
-            downvote
-            },
-            status: 200
+
+* **URL** 
+
+    http://localhost:3000/answer
+
+* **METHOD**
+
+    GET
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    **none**
+
+* **Data Params**
+
+    **none**
+
+* **Success Response**
+
+            {
+                    data:[{
+                title
+                    jawaban
+                    UserId
+                    upvote
+                    downvote
+                    }],
+                    status: 200
+            }
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+
 ## GET /answer/mine/:id
 
  Get One answer
 
-    url: 'http://localhost:3000/answer/mine/:id'
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            data : {
-            title
-            jawaban
-            UserId
-            upvote
-            downvote
-            },
-            status: 200
+ * **URL** 
+
+    http://localhost:3000/answer/mine/:id
+
+* **METHOD**
+
+    GET
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+    **none**
+
+* **Success Response**
+
+            {
+                    data : [{
+                        title,
+                        jawaban,
+                        UserId,
+                        upvote,
+                        downvote
+                    }],
+                    status: 200
+            }
+
+* **Error Response** 
+
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+
 
 ## GET /answer/mine
 
  Get User's question
 
-    url: 'http://localhost:3000/answer/mine'
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            data : {
-            title
-            jawaban
-            UserId
-            upvote
-            downvote
-            },
-            status: 200
+
+* **URL**
+
+    http://localhost:3000/answer/mine
+
+* **METHOD**
+
+    GET
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    **none**
+
+* **Data Params**
+
+    **none**
+
+* **Success Response** 
+
+            {
+                data : [{
+                    title
+                    jawaban
+                    UserId
+                    upvote
+                    downvote
+                }],
+                status: 200
+            }
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
-
-## Admin Routing
-
-Include Login of Admin
-
-## POST /admin/login
-
-Admin login
-
-    url: 'http://localhost:3000/answers/:id'
-    headers: token *required*,
-    body: {
-    username: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    },
-    response status: {
-        success: {
-            data : {
-                token
-            },
-            status: 201
-        }
-    }
 
 
 
 
-#ERROR
+# ERROR
 
 ## Error Handling
 
 Form of Error Handling
 
 
-      code: httpStatus || 406,
+      code: httpStatus || 500,
       message,
 
 
@@ -497,7 +937,7 @@ Error caused by Token
 
 
 ## 404
-Error caused by Token
+Error caused by Server could found
 
       code: 404,
       'Not Found',

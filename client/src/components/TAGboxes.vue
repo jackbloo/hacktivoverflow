@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="box" v-for="(q,i) in sameTags" :key="i">
+    <div class="box mb-2" v-for="(q,i) in sameTags" :key="i">
       <div class="kiri">
         <div class="satu">
           <div class="vo">
@@ -30,7 +30,7 @@
         </div>
         <div class="turun">
           <div>
-            <div class="tagg" >
+            <div class="tagg">
               <v-chip small v-for="(t,i) in q.tags" :key="i">{{t}}</v-chip>
             </div>
           </div>
@@ -56,10 +56,12 @@ export default {
 
 <style>
 .box {
-  border-bottom: 2px solid #0002;
-  height:10%;
+  height: 10%;
   display: flex;
   flex-direction: row;
+  -webkit-box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
 }
 .jumlah {
   margin-top: 2%;

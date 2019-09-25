@@ -32,7 +32,7 @@
             </div>
             <div v-else>no tags</div>
           </div>
-          <div class="nan">by: {{oneQ.UserId.name}}</div>
+          <div class="nan"></div>
         </div>
       </div>
     </div>

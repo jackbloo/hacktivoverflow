@@ -79,11 +79,19 @@ export default {
           Swal.close();
           Swal.fire("Success!", "Your are logged in!", "success");
           localStorage.setItem("access_token", data.token);
-          this.$router.push("/overflow/all");
+          this.$router.push("/overflow/all").catch(()=>{});
+          this.clear();
         })
-        .catch(err => {
-          Swal.fire("Error", "Email/Password is Wrong", "error");
+        .catch(error => {
+          let message =
+            (error.response.data && error.response.data.message) ||
+            "Failed to Login";
+          Swal.fire("Error!", message, "error");
+          this.clear();
         });
+    },
+    clear() {
+      (password = ""), (email = "");
     }
   }
 };
@@ -91,6 +99,6 @@ export default {
 
 <style>
 #inspire {
-    background-image: url('https://images.unsplash.com/photo-1487700160041-babef9c3cb55?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80')
+  background-image: url("https://images.unsplash.com/photo-1487700160041-babef9c3cb55?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80");
 }
 </style>

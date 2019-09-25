@@ -14,8 +14,20 @@
               </v-toolbar>
               <v-form @submit.prevent="register">
                 <v-card-text>
-                  <v-text-field label="name" name="name" prepend-icon="person" type="text" v-model="name"></v-text-field>
-                  <v-text-field label="email" name="email" prepend-icon="email" type="text" v-model="email"></v-text-field>
+                  <v-text-field
+                    label="name"
+                    name="name"
+                    prepend-icon="person"
+                    type="text"
+                    v-model="name"
+                  ></v-text-field>
+                  <v-text-field
+                    label="email"
+                    name="email"
+                    prepend-icon="email"
+                    type="text"
+                    v-model="email"
+                  ></v-text-field>
                   <v-text-field
                     id="password"
                     label="Password"
@@ -40,8 +52,8 @@
 
 <script>
 import navbarout from "../components/navbarout";
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
 export default {
   components: {
     navbarout
@@ -59,7 +71,7 @@ export default {
         title: "Registering....",
         allowOutsideClick: () => !Swal.isLoading()
       });
-      Swal.showLoading()
+      Swal.showLoading();
       axios({
         method: "POST",
         url: "http://18.191.103.187/user/register",
@@ -70,14 +82,23 @@ export default {
         }
       })
         .then(({ data }) => {
-          Swal.close()
-          Swal.fire("Success!","Your Account is Created!", "success");
-          this.$router.push('/login').catch(err =>{})
+          Swal.close();
+          Swal.fire("Success!", "Your Account is Created!", "success");
+          this.$router.push("/login").catch(err => {});
+          this.clear()
         })
-        .catch(err => {
-          Swal.fire("Error",err.message, "error");
+        .catch(error => {
+          let message =
+            (error.response.data && error.response.data.message) ||
+            "Failed to Register";
+          Swal.fire("Error!", message, "error");
         });
     }
+  },
+  clear(){
+      this.name= "",
+      this.password= "",
+      this.email= ""
   }
 };
 </script>

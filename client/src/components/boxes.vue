@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="boxy" v-for="(q,i) in questions" :key="i">
+    <div class="boxy mb-2" v-for="(q,i) in questions" :key="i">
       <div class="kiri">
         <div class="satu">
           <div class="vo">
@@ -29,8 +29,8 @@
           </div>
         </div>
         <div class="turun">
-          <div v-if="q.tags.length !== 0">
-            <div class="tagg" >
+          <div class="hoha" v-if="q.tags.length !== 0">
+            <div class="taggs">
               <v-chip small v-for="(t,i) in q.tags" :key="i">{{t}}</v-chip>
             </div>
           </div>
@@ -57,10 +57,12 @@ export default {
 
 <style>
 .boxy {
-  border-bottom: 2px solid #0002;
-  height:160px;
+  height: 160px;
   display: flex;
   flex-direction: row;
+  -webkit-box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
 }
 .kiri {
   width: 20%;
@@ -111,13 +113,13 @@ h4 {
 p {
   text-align: justify;
 }
-.tagg {
-  width: 70%;
+.taggs {
+  width: 200px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 }
 .author {
-  width: 30%;
+  width: 100px;
 }
 </style>

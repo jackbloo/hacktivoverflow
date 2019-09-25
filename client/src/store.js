@@ -113,8 +113,12 @@ export default new Vuex.Store({
         Swal.close()
         Swal.fire("Success!", "You successfully upvoted!", "success");
         context.dispatch('getOneQuestion', id)
-      }).catch(err => {
-        Swal.fire("Error!", err.message, "error");
+      }).catch(error => {
+        Swal.close()
+        let message =
+          (error.response.data && error.response.data.message) ||
+          "Failed to Upvote";
+        Swal.fire("Error!", message, "error");
       })
     },
     downvoteQ(context, payload) {
@@ -137,8 +141,12 @@ export default new Vuex.Store({
         Swal.close()
         Swal.fire("Success!", "You successfully downvoted!!", "success");
         context.dispatch('getOneQuestion', id)
-      }).catch(err => {
-        Swal.fire("Error!", err.message, "error");
+      }).catch(error => {
+        Swal.close()
+        let message =
+          (error.response.data && error.response.data.message) ||
+          "Failed to Downvote";
+        Swal.fire("Error!", message, "error");
       })
     },
     answerUp(context, payload) {
@@ -146,7 +154,7 @@ export default new Vuex.Store({
       let id = payload.id
       let token = localStorage.getItem('access_token')
       Swal.fire({
-        title: 'Downvoting...',
+        title: 'Upvoting...',
         allowOutsideClick: () => !Swal.isLoading()
       })
       Swal.showLoading()
@@ -162,8 +170,12 @@ export default new Vuex.Store({
         Swal.close()
         Swal.fire("Success!", "Your successfully upvoted!", "success");
         context.dispatch('getOneQuestion', questionId)
-      }).catch(err => {
-        Swal.fire("Error!", err.message, "error");
+      }).catch(error => {
+        Swal.close()
+        let message =
+          (error.response.data && error.response.data.message) ||
+          "Failed to ";
+        Swal.fire("Error!", message, "error");
       })
     },
     answerDown(context, payload) {
@@ -185,10 +197,14 @@ export default new Vuex.Store({
         data
       }) => {
         Swal.close()
-        Swal.fire("Success!","Your Account is Created!", "success");
+        Swal.fire("Success!", "Your Account is Created!", "success");
         context.dispatch('getOneQuestion', questionId)
-      }).catch(err => {
-        console.log(err)
+      }).catch(error => {
+        Swal.close()
+        let message =
+          (error.response.data && error.response.data.message) ||
+          "Failed to Downvote";
+        Swal.fire("Error!", message, "error");
       })
     },
     getMyTags({
